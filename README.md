@@ -5,6 +5,8 @@ ten self-contained HTML dashboards plus a landing page. No build step, no
 server, no database — drop the folder on GitHub Pages, Netlify, or any static
 host and it works.
 
+Available online at:  https://ntmbayfield.github.io/portfolio-dashboard-site/
+
 ```
 site/
 ├── index.html                              ← portfolio landing page
