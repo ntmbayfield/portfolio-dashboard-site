@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7FA;
+    --paper-dim:#E9EDF3;
+    --ink:#1D2E48;
+    --ink-soft:#3C4F6E;
+    --muted:#6B7A93;
+    --line:#D7DEE8;
+    --gold:#C9A227;
+    --gold-soft:#E8D48A;
+    --teal:#2E6B8A;
+    --pos:#2E7D5B;
+    --neg:#B23A3A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 28px 90px;}
+
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:36px 0 32px;
+    margin-bottom:36px;
+    border-bottom:6px solid var(--gold);
+  }
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    line-height:1.05;
+    margin:0 0 8px;
+    letter-spacing:-.01em;
+  }
+  header p.sub{
+    margin:0;
+    font-size:14px;
+    color:#B7C2D6;
+    max-width:560px;
+    line-height:1.5;
+  }
+
+  .filetree{
+    background:var(--ink);
+    color:#D7E0EC;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    line-height:1.7;
+    padding:18px 22px;
+    border-radius:8px;
+    margin:18px 0 30px;
+    overflow-x:auto;
+    white-space:pre;
+  }
+  .filetree .fyi{color:var(--gold-soft);}
+
+  section.block{margin-bottom:44px;}
+  .block-head{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+    margin-bottom:18px;
+  }
+  .block-head h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:24px;
+    margin:0;
+  }
+  h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:18px;
+    color:var(--ink);
+    margin:30px 0 6px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  h3:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+  p{
+    font-size:14px;
+    color:var(--ink-soft);
+    line-height:1.65;
+    margin:0 0 14px;
+  }
+  code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    background:var(--paper-dim);
+    padding:1px 5px;
+    border-radius:3px;
+    color:var(--ink);
+  }
+  b{color:var(--ink);}
+  ul{margin:0 0 14px;padding-left:20px;}
+  li{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:6px;}
+
+  .caveat{
+    font-size:13px;
+    color:var(--ink-soft);
+    background:var(--paper-dim);
+    border-left:3px solid var(--gold);
+    padding:12px 16px;
+    margin:16px 0;
+    line-height:1.6;
+  }
+
+  table.ledger{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    margin:8px 0 20px;
+  }
+  table.ledger th{
+    text-align:left;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+    padding:8px 10px;
+    border-bottom:2px solid var(--ink);
+    background:var(--paper-dim);
+  }
+  table.ledger td{
+    padding:9px 10px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    line-height:1.5;
+  }
+  table.ledger td:first-child{font-weight:500;color:var(--ink);white-space:nowrap;}
+  table.ledger tr:hover td{background:var(--paper-dim);}
+
+  .diagram{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:20px 22px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    line-height:1.8;
+    color:var(--ink-soft);
+    overflow-x:auto;
+    white-space:pre;
+  }
+
+  footer{
+    margin-top:32px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    font-size:11.5px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+  a{color:var(--teal);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand-eyebrow">Development &amp; Advancement · Documentation</div>
+    <h1>Dashboard Reference</h1>
+    <p class="sub">Source files, metric definitions, and data schema for every dashboard in this site. In this portfolio build the source workbooks are not included and every figure shown is randomly generated.</p>
+  </div>
+</header>
+
+<div style="max-width:900px;margin:0 auto 26px;padding:13px 17px;border:1px solid #E3B8B8;background:#F9ECEC;border-radius:9px;font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.55;color:#7A2E2E;">
+<strong>Portfolio note.</strong> This page documents the data model and calculation logic behind the dashboards. The methodology is real; the organization, source files, and every figure rendered on the linked dashboards are synthetic stand-ins created for this portfolio. The RENXT record links present in the production build have been removed here.
+</div>
+
+
+<div class="wrap">
+
+  <p>This site bundles ten fundraising dashboards. Below: the file structure, then for each dashboard, the source file(s) it was built from and the definition of every metric shown, including how it's calculated. All dollar figures are <code>Gf_Amount</code> (or the weekly report's equivalent) unless noted otherwise; all fiscal years run July 1 – June 30 and are named for the ending year (FY26 = July 2025–June 2026).</p>
+
+  <div class="filetree">site/
+├── index.html                          <span class="fyi">← landing page</span>
+└── dashboards/
+    ├── fundraising-performance-fy26.html   <span class="fyi">(FY26 Fundraising Overview)</span>
+    ├── campaign-revenue.html               <span class="fyi">(Year-over-Year Fundraising)</span>
+    ├── fy26-progress-to-goal.html          <span class="fyi">(FY26 Progress to Goal)</span>
+    ├── weekly-giving-jul6-12.html          <span class="fyi">(Weekly Giving: July 6th-12th, 2026)</span>
+    ├── weekly-giving-jul1-5.html           <span class="fyi">(Weekly Giving: July 1st-July 5th, 2026)</span>
+    ├── july-giving-yoy.html                <span class="fyi">(July Giving: 2026 vs. 2025)</span>
+    ├── weekly-giving-jul13-19.html         <span class="fyi">(Weekly Giving: July 13th-19th, 2026)</span>
+    ├── weekly-giving-jul20-26.html         <span class="fyi">(Weekly Giving: July 20th-26th, 2026)</span>
+    ├── weekly-giving-jul27-aug2.html       <span class="fyi">(Weekly Giving: July 27th-August 2nd, 2026)</span>
+    ├── officer-performance.html            <span class="fyi">(Development Officer Performance — prototype)</span>
+    └── dashboard-reference.html            <span class="fyi">(this page)</span></div>
+
+  <section class="block">
+    <div class="block-head"><h2>Dashboard reference</h2></div>
+
+    <h3>Year-over-Year Fundraising (campaign-revenue.html)</h3>
+    <p><b>Source files:</b></p>
+    <ul>
+      <li><code>Reclassification_Impact_Data_for_Dashboard.xlsx</code> — authoritative source for the Reclassification Impact chart/table and the Original vs. Revised revenue-by-campaign figures used throughout this dashboard. Tabs: <code>FY23-24</code>, <code>FY24-25</code>, <code>FY25-26</code>.</li>
+      <li><code>Updated_Fundraising_Totals_by_Fiscal_Year.xlsx</code> — pivot tables (one per FY) mapping original campaign names to revised campaign names; used to build and cross-check the above.</li>
+      <li><code>Difference_in_Revenue_by_Campaign__FY24_Fy25_FY26.xlsx</code> — revised-classification revenue by campaign across all three years; used to cross-check year-over-year figures.</li>
+      <li><code>Revenue_Growth__with_and_without_Planned_Giving.xlsx</code> — revised-classification revenue and % of total, with and without Planned Giving; used to cross-check the Include/Exclude Planned Giving toggle.</li>
+    </ul>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Calculation</th></tr>
+      <tr><td>Total Revenue, Selected Year</td><td>Sum of revised-classification revenue across active campaigns (excludes Planned Giving when the toggle is set to "Excluded")</td></tr>
+      <tr><td>Reclassification Impact chart</td><td>Clustered bars: x-axis = Original Classification / Revised Classification, one bar per campaign in each cluster, values pulled directly from the source file</td></tr>
+      <tr><td>% of Total (Orig./Rev.)</td><td>Campaign revenue ÷ total revenue for that classification, recalculated live for the active toggle state (not the file's static percentage, which always includes Planned Giving)</td></tr>
+      <tr><td>Change ($)</td><td>Revised revenue − Original revenue</td></tr>
+      <tr><td>Change (%)</td><td>Change ($) ÷ Original revenue (shown as N/A if Original = $0)</td></tr>
+      <tr><td>Year-over-year slope chart</td><td>Revised-classification revenue per campaign, plotted at FY24, FY25, and FY26</td></tr>
+      <tr><td>FY24→FY25 / FY25→FY26 tables</td><td>Δ$ = revenue(to year) − revenue(from year); Δ% = Δ$ ÷ revenue(from year) (N/A if the from-year value is $0)</td></tr>
+      <tr><td>Year 1 to Year 3 dumbbell plot</td><td>FY24 vs. FY26 revised-classification revenue per campaign, rows sorted by absolute dollar change</td></tr>
+    </table>
+    <div class="caveat">Known data caveat shown on this dashboard: the decline in the "Other" campaign (Foundation/Government grants) reflects a change in what Raiser's Edge tracks, not a real drop in institutional funding — those gift types moved to a separate external reporting system partway through this period.</div>
+
+    <h3>FY26 Fundraising Overview (fundraising-performance-fy26.html)</h3>
+    <p><b>Source files:</b> <code>FY24_GIFTS.xlsx</code>, <code>FY25_GIFTS.xlsx</code>, <code>FY26_GIFTS.xlsx</code> (gift-level exports, one row per gift; see the Data schema section below).</p>
+    <p><b>Filtering rule applied to all metrics:</b> gifts with <code>Gf_Gift_status</code> = <code>Terminated</code>, or with a blank <code>Gf_Date</code>/<code>Gf_Amount</code>, are excluded.</p>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Calculation</th></tr>
+      <tr><td>Total Revenue</td><td>Sum of <code>Gf_Amount</code> for valid gifts in the selected fiscal year</td></tr>
+      <tr><td>Total Gifts Received</td><td>Count of valid gift rows in the selected fiscal year</td></tr>
+      <tr><td>Unique Donors</td><td>Count of distinct <code>Gf_CnBio_ID</code> values with at least one valid gift that year</td></tr>
+      <tr><td>Average Gift Amount</td><td>Total Revenue ÷ Total Gifts</td></tr>
+      <tr><td>Avg. Gifts per Donor</td><td>Total Gifts ÷ Unique Donors</td></tr>
+      <tr><td>Revenue by Quarter</td><td><code>Gf_Amount</code> summed by fiscal quarter from <code>Gf_Date</code> (Q1 Jul–Sep, Q2 Oct–Dec, Q3 Jan–Mar, Q4 Apr–Jun)</td></tr>
+      <tr><td>New Donors</td><td>Donor gave this FY, and never gave in either of the two prior years on file</td></tr>
+      <tr><td>Retained Donors</td><td>Donor gave this FY and also gave the immediately preceding FY</td></tr>
+      <tr><td>Recaptured Donors (FY26 only)</td><td>Donor gave this FY and gave two years prior, but did <b>not</b> give in the immediately preceding FY</td></tr>
+      <tr><td>Lapsing / LYBUNT</td><td>Donor gave the immediately preceding FY but not this FY ("Last Year But Not This")</td></tr>
+      <tr><td>Lost Donors (FY26 only)</td><td>Donor gave two years prior only — not the preceding FY, not this FY</td></tr>
+      <tr><td>SYBUNT</td><td>All donors who gave in any prior year on file but not this FY ("Some Year But Not This") — equals Lapsing ∪ Lost</td></tr>
+      <tr><td>LYBUNT / SYBUNT rosters</td><td>Donor name, most recent gift date, and most recent gift amount, sorted by amount, searchable by name</td></tr>
+    </table>
+    <div class="caveat">Data availability caveat: New/Retained are computable for FY25 and FY26; Recaptured/Lost require two full prior years of history and are only computable for FY26, since FY24 is the earliest year in this dataset.</div>
+
+    <h3>FY26 Progress to Goal (fy26-progress-to-goal.html)</h3>
+    <p><b>Source files:</b> originally built from a user-provided React component (<code>FY26ProgressToGoal.jsx</code>) containing each campaign's final FY26 raised amount and fundraising goal; raised figures were cross-checked against the revised-classification FY26 revenue in the files listed under Year-over-Year Fundraising above.</p>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Calculation</th></tr>
+      <tr><td>% of Goal</td><td>Raised ÷ Goal, per campaign</td></tr>
+      <tr><td>Surplus / (Deficit)</td><td>Raised − Goal, per campaign</td></tr>
+      <tr><td>Combined Controllable Revenue</td><td>Direct Marketing + Event Income + Major Gifts raised, against the sum of their three goals (excludes Planned Giving; "Other" and Northgate Academy revenue, which carry no goal, are added into the total-raised figure only)</td></tr>
+      <tr><td>Total Raised / Total Goal / Gap / % of Goal</td><td>Same formulas as above, summed across whichever campaign set is active (Include/Exclude Planned Giving toggle)</td></tr>
+    </table>
+    <p>The Executive Summary narrative on this dashboard is written commentary, not a calculated field — it explains why the FY25→FY26 total revenue drop is a Planned Giving timing effect rather than a fundraising performance issue, and flags the same Foundation/Government tracking-change caveat noted above.</p>
+
+    <h3>July Giving: 2026 vs. 2025 (july-giving-yoy.html)</h3>
+    <p><b>Source files:</b></p>
+    <ul>
+      <li>July 2026: the combined gift-level data from all five weekly reports covering the month (<code>Weekly_Gift_Detail_Report_07_01_26-07_05_26.xlsx</code>, <code>..._07_06_26-07_12_26.csv</code>, <code>..._07_13_26-07_19_26.csv</code>, <code>..._July20-26.csv</code>, <code>Weekly_Gift_Report_July27-aug2.csv</code> — the last file spans July 27–Aug 2, so only its July 27–31 rows are included here).</li>
+      <li>July 2025: <code>FY26_GIFTS.xlsx</code>, filtered to <code>Gf_Date</code> in July 2025 and excluding <code>Terminated</code> gifts.</li>
+    </ul>
+    <p>Both months are complete (31 days each).</p>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Calculation</th></tr>
+      <tr><td>Total Revenue / Total Gifts / Unique Donors / Average Gift</td><td>Same definitions as the FY26 Fundraising Overview dashboard, computed separately for each year's July gifts</td></tr>
+      <tr><td>Daily Average</td><td>Total Revenue ÷ 31 days, for both years</td></tr>
+      <tr><td>Daily Giving chart</td><td>Revenue by day of month, both years plotted on the same 1–31 axis</td></tr>
+      <tr><td>Giving by Campaign</td><td>Revenue by revised campaign classification, both years, with $ and % change</td></tr>
+    </table>
+
+    <h3>Weekly Giving: July 6th-12th, 2026 (weekly-giving-jul6-12.html)</h3>
+    <p><b>Source file:</b> <code>Weekly_Gift_Detail_Report_07_06_26-07_12_26.csv</code> (gift-level export for a single reporting week; see the Data schema section below).</p>
+    <div class="caveat">Filtering rule applied to all metrics: gifts flagged <code>Soft credit = Yes</code> are excluded from every total, chart, and table on this dashboard (and on every other weekly dashboard on this site). Soft-credit rows represent credit given to a related constituent for a gift someone else actually made — the real dollars are already counted under the primary donor's record, so including them again would double-count revenue.</div>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Calculation</th></tr>
+      <tr><td>Amount (per gift)</td><td><code>Cash</code> + <code>Stocks</code> + <code>Stock</code> + <code>Pledge Payment</code> (all four columns summed per row)</td></tr>
+      <tr><td>Gift Type</td><td><code>Gift Subtype</code> if present; otherwise inferred from which amount column is populated (Stock/Property, Pledge Payment, else Cash)</td></tr>
+      <tr><td>Total Gifts / Total Amount / Average Gift</td><td>Count and sum of Amount across all gifts in the file</td></tr>
+      <tr><td>Unique Donors</td><td>Count of distinct values in <code>Constituent Name</code> (this field holds the constituent ID, not a name, in this export)</td></tr>
+      <tr><td>Giving by Day</td><td>Amount summed by <code>Date</code></td></tr>
+      <tr><td>Giving by Campaign / Appeal / Fund</td><td>Amount and gift count grouped by <code>Campaign ID</code>, <code>Appeal Description</code>, and <code>Fund Description</code> respectively, each with % of the week's total</td></tr>
+      <tr><td>Gift Detail table</td><td>One row per gift: date, amount, gift type, campaign, fund, appeal, fundraiser, and donor name — sortable and searchable. Donor name links to the constituent's profile in RENXT; gift amount links to the gift record in RENXT (see the RENXT link lookup note below)</td></tr>
+      <tr><td>FYTD Totals (Gifts / Amount / Donors, by Campaign / Appeal / Fund)</td><td>Same fields as above, but summed across every weekly report processed so far this fiscal year (July 1 through the end of this report's week), not just the current week</td></tr>
+    </table>
+    <div class="caveat">FYTD Totals note: each weekly dashboard's FYTD Totals section is a cumulative rollup of gift-level data from every prior weekly report in the same fiscal year, combined with the current week. It is recalculated fresh each time a new week's dashboard is built — there is no running database; the underlying gift rows from each week's file are simply concatenated and re-aggregated by campaign, appeal, and fund.</div>
+    <div class="caveat">RENXT link lookup note: donor-profile and gift-record links in the Gift Detail table come from a separate export, <code>FYTD_Gifts_thru_7-28-26.xlsx</code> (column W = donor name, Y = gift record link, Z = constituent profile link), matched to each weekly report's gift rows by Constituent ID + Gift Date + Gift Amount (there is no shared Gift ID between the two exports). This match is very reliable but not perfect: a small number of gifts don't carry a link (they display as plain text) either because they fell outside the lookup file's date range, or because two gifts from the same donor on the same day for the same amount created an ambiguous match — in that case the first matching row's link is used, which occasionally points to a sibling gift rather than the exact one shown.</div>
+
+    <h3>Weekly Giving: July 1st-July 5th, 2026 (weekly-giving-jul1-5.html)</h3>
+    <p><b>Source file:</b> <code>Weekly_Gift_Detail_Report_07_01_26-07_05_26.xlsx</code> (gift-level export for a single reporting week; same schema and metric definitions as the July 6th-12th dashboard above, applied to a different week's data — see the Data schema section below).</p>
+
+    <h3>Weekly Giving: July 13th-19th, 2026 (weekly-giving-jul13-19.html)</h3>
+    <p><b>Source file:</b> <code>Weekly_Gift_Detail_Report_07_13_26-07_19_26.csv</code> (gift-level export for a single reporting week; same schema and metric definitions as the July 6th-12th dashboard above, applied to a different week's data — see the Data schema section below).</p>
+
+    <h3>Weekly Giving: July 20th-26th, 2026 (weekly-giving-jul20-26.html)</h3>
+    <p><b>Source file:</b> <code>Weekly_Gift_Detail_Report_July20-26.csv</code> (gift-level export for a single reporting week; same schema and metric definitions as the July 6th-12th dashboard above, applied to a different week's data — see the Data schema section below).</p>
+
+    <h3>Weekly Giving: July 27th-August 2nd, 2026 (weekly-giving-jul27-aug2.html)</h3>
+    <p><b>Source file:</b> <code>Weekly_Gift_Report_July27-aug2.csv</code> (gift-level export for a single reporting week that crosses the July/August calendar-month boundary — the reporting week itself still runs Monday to Sunday within fiscal year FY27, so it's unaffected by the month change. Same schema and metric definitions as the July 6th-12th dashboard above, including the Soft Credit exclusion rule.)</p>
+
+    <h3>Development Officer Performance — Prototype (officer-performance.html)</h3>
+    <p><b>Source file:</b> none. This dashboard uses <b>illustrative sample data only</b>, built to review the design and layout before connecting it to a real data source. A banner on the page states this. The three "officers" shown reuse fundraiser names that appear in <code>Weekly_Gift_Detail_Report_07_06_26-07_12_26.csv</code> for continuity, but their activity, portfolio, and gift data are invented.</p>
+    <table class="ledger">
+      <tr><th>Metric</th><th>Intended calculation</th></tr>
+      <tr><td>Actions This Week (by type)</td><td>Count of logged contact reports this week, grouped into Qualification / Cultivation / Solicitation / Stewardship (standard moves-management stages)</td></tr>
+      <tr><td>Open Proposals</td><td>Count and total ask amount of proposals not yet closed</td></tr>
+      <tr><td>No Contact in 10+ Days</td><td>Portfolio constituents whose most recent contact report is more than 10 days old</td></tr>
+      <tr><td>Upcoming Birthdays</td><td>Portfolio constituents with a birthday in the next 14 days</td></tr>
+      <tr><td>Gifts This Week</td><td>Gifts received this week from constituents in the officer's portfolio</td></tr>
+      <tr><td>Donors / Non-Donors FYTD</td><td>Portfolio constituents split by whether they've made a gift this fiscal year</td></tr>
+      <tr><td>Portfolio Yield FYTD vs. Goal</td><td>Sum of this fiscal year's gifts from portfolio constituents, against the officer's assigned portfolio goal</td></tr>
+      <tr><td>Closed Won Proposals FYTD</td><td>Proposals marked closed-won this fiscal year, with donor, proposal name, and amount</td></tr>
+    </table>
+    <p>Once connected to Raiser's Edge, most of these map directly to standard RE entities: Actions (<code>Interactions</code> connector), Proposals (<code>Opportunities</code> in the <code>Prospects</code> connector), and Gifts (<code>Gifts</code> connector).</p>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>Data schema and relationships</h2></div>
+
+    <h3>Gift-level files: FY24_GIFTS.xlsx, FY25_GIFTS.xlsx, FY26_GIFTS.xlsx</h3>
+    <p>One row per gift transaction. Each is a single-sheet export named for its fiscal year (<code>FY23-24</code>, <code>FY24-25</code>, <code>FY25-26</code>).</p>
+    <table class="ledger">
+      <tr><th>Column</th><th>Description</th></tr>
+      <tr><td>Gf_Gift_ID</td><td>Unique gift identifier (primary key)</td></tr>
+      <tr><td>Gf_Date</td><td>Gift date</td></tr>
+      <tr><td>Gf_Amount</td><td>Gift amount</td></tr>
+      <tr><td>Gf_Type</td><td>Original gift type (Cash, Pledge, Stock/Property, etc.)</td></tr>
+      <tr><td>Revised Type</td><td>Cleaned-up gift type, where reclassified</td></tr>
+      <tr><td>Gf_Gift_subtype</td><td>Subtype, e.g. Recurring Gift Pay-Cash</td></tr>
+      <tr><td>Gf_Gift_status</td><td>Active / Completed / Terminated</td></tr>
+      <tr><td>Gf_GL_post_date</td><td>General ledger posting date</td></tr>
+      <tr><td>Gf_Campaign</td><td>Original campaign name</td></tr>
+      <tr><td>Revised Campaign</td><td>Cleaned-up campaign name (the basis for every "revised classification" figure across all dashboards)</td></tr>
+      <tr><td>Logic</td><td>Internal note on the campaign remapping (FY24/FY25 exports only)</td></tr>
+      <tr><td>Gf_Appeal</td><td>Original appeal</td></tr>
+      <tr><td>Revised Appeal</td><td>Cleaned-up appeal</td></tr>
+      <tr><td>Gf_Fund</td><td>Fund designation</td></tr>
+      <tr><td>Gf_Import_ID</td><td>Import batch identifier</td></tr>
+      <tr><td>Gf_Balance</td><td>Outstanding balance (relevant to pledges)</td></tr>
+      <tr><td>Gf_CnBio_ID</td><td><b>Donor identifier (foreign key)</b> — links this gift to a constituent, and across fiscal years</td></tr>
+      <tr><td>Gf_CnBio_Name</td><td>Donor name</td></tr>
+      <tr><td>Gf_CnBio_Import_ID</td><td>Donor import batch identifier</td></tr>
+      <tr><td>Gf_CnBio_Key_Indicator</td><td>Donor flag/indicator field</td></tr>
+    </table>
+    <div class="caveat">This is the relationship that everything else is built on: Gf_CnBio_ID appearing (or not appearing) across the three yearly files is the entire mechanism behind the FY26 Fundraising Overview dashboard's New / Retained / Recaptured / Lapsing / Lost / SYBUNT donor-movement metrics — those are computed purely by comparing the sets of donor IDs present in each year's file, nothing more.</div>
+
+    <h3>Weekly file: Weekly_Gift_Detail_Report_07_06_26-07_12_26.csv</h3>
+    <p>One row per gift transaction for a single reporting week — a differently formatted export than the annual gift files above, at a similar grain.</p>
+    <table class="ledger">
+      <tr><th>Column</th><th>Description</th></tr>
+      <tr><td>Date</td><td>Gift date</td></tr>
+      <tr><td>Cash, Stocks, Stock, Pledge Payment</td><td>Amount columns by payment method (summed together for total gift amount)</td></tr>
+      <tr><td>Gift Subtype</td><td>e.g. Recurring Gift Pay Cash, Recurring Gift Master Card/Visa</td></tr>
+      <tr><td>Campaign ID / Campaign Description</td><td>Revised campaign name / broader campaign grouping</td></tr>
+      <tr><td>Fund ID / Fund Description</td><td>Fund code / fund name</td></tr>
+      <tr><td>Appeal ID / Appeal Description</td><td>Appeal code / appeal name</td></tr>
+      <tr><td>Constituent Name</td><td><b>Holds the constituent ID</b>, not a name, in this export — the same underlying concept as Gf_CnBio_ID above, from a different report format</td></tr>
+      <tr><td>Fundraiser Name</td><td>Assigned development officer, where applicable</td></tr>
+      <tr><td>Anonymous</td><td>Present in the file; not currently surfaced on the dashboard</td></tr>
+      <tr><td>Soft credit</td><td>Used as a filter — rows where this is <code>Yes</code> are excluded from every weekly dashboard's totals (see the filtering rule under each weekly dashboard's metrics above)</td></tr>
+    </table>
+
+    <h3>Campaign-level (pre-aggregated) files</h3>
+    <p>These four workbooks are <b>not gift-level data</b> — they're pre-aggregated summaries, each answering a slightly different question about the same underlying Revised Campaign totals found in the gift-level files above:</p>
+    <table class="ledger">
+      <tr><th>File</th><th>Grain</th><th>Purpose</th></tr>
+      <tr><td>Updated_Fundraising_Totals_by_Fiscal_Year.xlsx</td><td>Campaign × FY (3 sheets, one per FY)</td><td>Pivot tables mapping original → revised campaign names, with combined revenue</td></tr>
+      <tr><td>Difference_in_Revenue_by_Campaign__FY24_Fy25_FY26.xlsx</td><td>Campaign × FY (1 sheet)</td><td>Revised-classification revenue by campaign, all three years in one table</td></tr>
+      <tr><td>Revenue_Growth__with_and_without_Planned_Giving.xlsx</td><td>Campaign (1 sheet)</td><td>Revised-classification revenue and % of total, with/without Planned Giving</td></tr>
+      <tr><td>Reclassification_Impact_Data_for_Dashboard.xlsx</td><td>Campaign × FY (3 sheets, one per FY)</td><td>Original vs. revised revenue, % of total, and $ change — the authoritative source for the Year-over-Year Fundraising dashboard</td></tr>
+    </table>
+    <p><b>In short:</b> if you sum <code>Gf_Amount</code> from the gift-level files by Revised Campaign and fiscal year, you get the numbers in all four of these workbooks. They exist because different views of the same rollup were requested at different points — not because the underlying revenue figures differ between them.</p>
+
+    <h3>Entity-relationship summary</h3>
+    <div class="diagram">Gf_CnBio_ID (donor) ──&lt; Gf_Gift_ID (gift)  [one donor, many gifts — annual files]
+     │
+     └── same donor concept, differently formatted ──&gt; Constituent Name field [weekly file]
+
+Gf_Campaign / Gf_Appeal (original) ──&gt; Revised Campaign / Revised Appeal (cleaned)
+     │
+     └── aggregated by campaign + FY ──&gt; the four campaign-level workbooks above
+                                          ──&gt; Year-over-Year Fundraising dashboard
+                                          ──&gt; FY26 Progress to Goal dashboard (Raised figures)
+
+Gf_Gift_ID + Gf_Date + Gf_Amount + Gf_Gift_status ──&gt; FY26 Fundraising Overview
+                                                        (revenue, gift counts, donor retention)
+
+FY26ProgressToGoal.jsx (user-provided goals) ──&gt; FY26 Progress to Goal dashboard
+                                                   (paired with Raised from gift-level rollups)
+
+Officer/portfolio entities (Actions, Proposals, Gifts) ──&gt; Development Officer
+     [no file yet — illustrative prototype]                Performance (prototype)</div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>Standard Operating Procedures</h2></div>
+    <p>Step-by-step procedures for generating the source datasets used to build or refresh each dashboard. Each subsection below is a complete, standalone SOP for one dataset.</p>
+
+    <h3>Weekly Giving Report (RENXT)</h3>
+    <p><b>Purpose:</b> Generate and export the Weekly Giving Report from Raiser's Edge NXT (RENXT) for use in the Weekly Giving Dashboard.</p>
+    <p><b>Frequency:</b> Weekly, every Monday &nbsp;·&nbsp; <b>Responsible party:</b> Database Manager &nbsp;·&nbsp; <b>System:</b> Raiser's Edge NXT</p>
+
+    <table class="ledger">
+      <tr><th>Step</th><th>Instruction</th></tr>
+      <tr><td>1. Navigate to Standard Reports</td><td>In RENXT, use the left navigation bar to go to <b>Analysis</b>, then select <b>Standard Reports</b>.</td></tr>
+      <tr><td>2. Locate the Gift Detail and Summary Report</td><td>In the <b>Financial Reports</b> section, select <b>Gift Detail and Summary Report</b>.</td></tr>
+      <tr><td>3. Find the Weekly Gift Detail and Summary Report</td><td>Scroll through the list of results until you find <b>"Weekly Gift Detail and Summary Report."</b></td></tr>
+      <tr><td>4. Open the report for editing</td><td>Click the <b>···</b> (ellipsis) icon next to the report name, then choose <b>Edit</b> from the list of options shown.</td></tr>
+      <tr><td>5. Verify the reporting period</td><td>Confirm the report period covers <b>last week</b>. If it doesn't default correctly, manually specify the date range as <b>12:00 AM Monday to 11:59 PM Sunday of the previous week</b>. Do not change any other settings on this screen.</td></tr>
+      <tr><td>6. Export the report</td><td>Click <b>Export</b>, then select <b>CSV</b> as the file type.</td></tr>
+      <tr><td>7. Wait for the export notifications</td><td>RENXT will generate the report in four parts and send four separate notifications as each component becomes ready. The other three files summarize the giving data by campaign, appeal, and fund — they don't need to be downloaded, but it's fine to discard them if they are.</td></tr>
+      <tr><td>8. Download the correct file</td><td>From the notifications, download the <b>Gift Detail</b> file.</td></tr>
+      <tr><td>9. Rename the file</td><td>Rename the downloaded file to match this naming convention: <code>Weekly_Gift_Detail_Report_MM_DD_YY-MM_DD_YY.csv</code> (e.g. <code>Weekly_Gift_Detail_Report_07_06_26-07_12_26.csv</code> for the week of July 6–12, 2026).</td></tr>
+      <tr><td>10. Save to the correct location</td><td>Save the renamed file to: <b>Shared Drive &gt; Dashboard Exports &gt; Weekly Gift Reports</b>.</td></tr>
+    </table>
+
+    <div class="caveat">Only the Gift Detail file from the four generated components is required for the dashboard build. The other three (campaign, appeal, and fund summaries) can be discarded if downloaded. No changes should be made to any report settings beyond the date range in Step 5.</div>
+  </section>
+
+  <footer>Portfolio sample · All data shown is synthetic</footer>
+
+</div>
+
+</body>
+</html>

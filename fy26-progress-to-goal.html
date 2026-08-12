@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FY26 Campaign Results — Progress to Goal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7FA;
+    --paper-dim:#E9EDF3;
+    --ink:#1D2E48;
+    --ink-soft:#3C4F6E;
+    --muted:#6B7A93;
+    --line:#D7DEE8;
+    --line-dark:#B9C4D6;
+    --gold:#C9A227;
+    --gold-soft:#F2E7C3;
+    --gold-dark:#8A6B1D;
+    --teal:#2E6B8A;
+    --teal-light:#4A87A8;
+    --teal-soft:#DCEAF1;
+    --teal-border:#BFDCE8;
+    --pos:#2E7D5B;
+    --pos-light:#3F9873;
+    --pos-lighter:#57AB89;
+    --pos-dark:#1F5A40;
+    --pos-soft:#DCEAE2;
+    --pos-mid:#B9D9C7;
+    --pos-border:#8FC2A8;
+    --neg:#B23A3A;
+    --neg-soft:#F3DCDC;
+    --neg-border:#E3B8B8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px 80px;}
+
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:36px 0 32px;
+    margin-bottom:32px;
+    border-bottom:6px solid var(--gold);
+  }
+  header .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:34px;
+    line-height:1.05;
+    margin:0 0 8px;
+    letter-spacing:-.01em;
+  }
+  header p.sub{
+    margin:0;
+    font-size:14.5px;
+    color:#B7C2D6;
+    max-width:480px;
+    line-height:1.5;
+  }
+
+  .toggle-block{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+  .toggle-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:#B7C2D6;
+  }
+  .toggle{
+    display:flex;
+    background:#0F1826;
+    border:1px solid #2C3B54;
+    border-radius:999px;
+    padding:4px;
+    gap:4px;
+  }
+  .toggle button{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    border:none;
+    background:transparent;
+    color:#8FA0BC;
+    padding:9px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .toggle button.active{
+    background:var(--gold);
+    color:var(--ink);
+  }
+
+  section.block{margin-bottom:32px;}
+  .panel{
+    background:#FFFFFF;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 26px;
+  }
+
+  /* Executive summary callout */
+  .exec-summary{
+    background:var(--teal-soft);
+    border:1px solid var(--teal-border);
+    border-radius:16px;
+    padding:22px 24px;
+    display:flex;
+    gap:16px;
+  }
+  .exec-summary .icon{
+    flex-shrink:0;
+    width:40px;height:40px;
+    background:#fff;
+    border-radius:999px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;color:var(--teal);
+  }
+  .exec-summary h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:18px;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .exec-summary p{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin:0 0 8px;
+  }
+  .exec-summary p.bold{font-weight:600;margin-bottom:0;}
+  .exec-summary ul{margin:0 0 4px;padding-left:20px;}
+  .exec-summary ul li{font-size:13.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:6px;}
+  .insight-stack{margin-top:16px;display:flex;flex-direction:column;gap:10px;}
+  .insight-card{
+    background:#fff;border-radius:10px;padding:13px 16px;
+    border-left:4px solid var(--line);
+  }
+  .insight-card p{font-size:13px;color:var(--ink-soft);line-height:1.55;margin:0;}
+  .insight-card p.lead-line{font-weight:600;color:var(--ink);margin-bottom:3px;}
+  .insight-card.pos{border-left-color:var(--pos);}
+  .insight-card.teal{border-left-color:var(--teal);}
+  .insight-card.gold{border-left-color:var(--gold);}
+  .insight-card.neg{border-left-color:var(--neg);}
+
+  /* KPI mini cards */
+  .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+  @media (max-width:800px){.kpi-row{grid-template-columns:1fr;}}
+  .kpi-mini{border-radius:12px;padding:16px;text-align:center;}
+  .kpi-mini .label{font-size:12.5px;margin-bottom:4px;}
+  .kpi-mini .value{font-family:'Fraunces',serif;font-weight:600;font-size:22px;}
+  .kpi-mini .sub{font-size:11px;margin-top:4px;}
+  .kpi-mini.goal{background:var(--teal-soft);}
+  .kpi-mini.goal .label,.kpi-mini.goal .sub{color:var(--teal);}
+  .kpi-mini.goal .value{color:var(--teal);}
+  .kpi-mini.raised{background:var(--pos-soft);}
+  .kpi-mini.raised .label,.kpi-mini.raised .sub{color:var(--pos-dark);}
+  .kpi-mini.raised .value{color:var(--pos-dark);}
+  .kpi-mini.gap-pos{background:var(--pos-soft);}
+  .kpi-mini.gap-pos .label{color:var(--pos-dark);}
+  .kpi-mini.gap-pos .value{color:var(--pos-dark);}
+  .kpi-mini.gap-neg{background:var(--neg-soft);}
+  .kpi-mini.gap-neg .label{color:var(--neg);}
+  .kpi-mini.gap-neg .value{color:var(--neg);}
+
+  /* Progress bar (simple) */
+  .progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .progress-head .ptitle{font-size:13px;font-weight:600;color:var(--ink-soft);}
+  .progress-head .ppct{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--pos-dark);}
+  .progress-track{position:relative;height:38px;background:var(--paper-dim);border-radius:999px;overflow:hidden;}
+  .progress-fill{
+    position:absolute;left:0;top:0;height:100%;border-radius:999px;
+    display:flex;align-items:center;justify-content:flex-end;padding-right:14px;
+    background:linear-gradient(to right, var(--pos), var(--pos-light));
+    transition:width .5s ease;
+  }
+  .progress-fill span{color:#fff;font-size:13px;font-weight:600;white-space:nowrap;}
+
+  /* Breakdown mini list */
+  .breakdown-title{font-size:13px;font-weight:600;color:var(--ink-soft);margin:0 0 12px;}
+  .breakdown-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media (max-width:800px){.breakdown-grid{grid-template-columns:1fr;}}
+  .breakdown-item{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 13px;border-radius:10px;border:1px solid var(--line);
+  }
+  .breakdown-item.over{background:var(--pos-soft);border-color:var(--pos-border);}
+  .breakdown-item.under{background:var(--teal-soft);border-color:var(--teal-border);}
+  .breakdown-item .biname{font-weight:600;font-size:13.5px;color:var(--ink);}
+  .breakdown-item .bisub{font-size:11px;color:var(--muted);margin-top:2px;}
+  .breakdown-item .bipct{font-family:'Fraunces',serif;font-weight:600;font-size:17px;text-align:right;}
+  .breakdown-item.over .bipct{color:var(--pos-dark);}
+  .breakdown-item.under .bipct{color:var(--teal);}
+  .breakdown-item .bidelta{font-size:11px;text-align:right;margin-top:2px;}
+  .breakdown-item.over .bidelta{color:var(--pos-dark);}
+  .breakdown-item.under .bidelta{color:var(--muted);}
+  .breakdown-footnote{font-size:11.5px;color:var(--muted);font-style:italic;margin-top:12px;}
+
+  /* Comparison banner */
+  .comparison-banner{
+    background:linear-gradient(to right, var(--ink), var(--teal));
+    border-radius:16px;
+    padding:24px 26px;
+    color:#fff;
+  }
+  .comparison-banner .cb-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+  .comparison-banner h2{font-family:'Fraunces',serif;font-weight:600;font-size:18px;margin:0 0 4px;}
+  .comparison-banner .cb-sub{font-size:13px;color:#CFE0EC;}
+  .comparison-banner .cb-pct{font-family:'Fraunces',serif;font-size:44px;font-weight:600;text-align:right;line-height:1;}
+  .comparison-banner .cb-pct-label{font-size:12.5px;color:#CFE0EC;text-align:right;margin-top:4px;}
+  .cb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .cb-card{background:rgba(255,255,255,0.14);border-radius:12px;padding:14px 16px;}
+  .cb-card.active{border:2px solid rgba(255,255,255,0.5);}
+  .cb-card .cbc-label{font-size:12.5px;color:#CFE0EC;margin-bottom:2px;}
+  .cb-card .cbc-value{font-family:'Fraunces',serif;font-weight:600;font-size:22px;}
+  .cb-card .cbc-gap{font-size:12.5px;color:#CFE0EC;margin-top:2px;}
+
+  /* Summary stats */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media (max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center;}
+  .stat-card .sval{font-family:'Fraunces',serif;font-weight:600;font-size:26px;}
+  .stat-card .slabel{font-size:12px;color:var(--muted);margin-top:4px;}
+  .stat-card.raised .sval{color:var(--pos-dark);}
+  .stat-card.goal .sval{color:var(--ink);}
+  .stat-card.gap-pos{background:var(--pos-soft);border-color:var(--pos-border);}
+  .stat-card.gap-pos .sval,.stat-card.gap-pos .slabel{color:var(--pos-dark);}
+  .stat-card.gap-neg{background:var(--neg-soft);border-color:var(--neg-border);}
+  .stat-card.gap-neg .sval,.stat-card.gap-neg .slabel{color:var(--neg);}
+  .stat-card.pct-hi{background:var(--pos-soft);border-color:var(--pos-border);}
+  .stat-card.pct-hi .sval{color:var(--pos-dark);}
+  .stat-card.pct-lo{background:var(--teal-soft);border-color:var(--teal-border);}
+  .stat-card.pct-lo .sval{color:var(--teal);}
+
+  /* Chart / stacked bars */
+  .chart-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:22px;}
+  .chart-head h2{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:0;color:var(--ink);}
+  .legend-row{display:flex;gap:20px;font-size:12.5px;}
+  .legend-item{display:flex;align-items:center;gap:7px;color:var(--ink-soft);}
+  .legend-swatch{width:15px;height:15px;border-radius:4px;}
+
+  .campaign-row{margin-bottom:26px;}
+  .campaign-row.bequest{opacity:0.65;}
+  .campaign-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px;}
+  .campaign-name{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--ink);}
+  .badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;font-weight:600;
+    padding:4px 10px;border-radius:999px;
+    margin-left:8px;
+  }
+  .badge.over{background:var(--pos-mid);color:var(--pos-dark);}
+  .badge.unpredictable{background:var(--gold-soft);color:var(--gold-dark);}
+  .campaign-pct{font-family:'Fraunces',serif;font-weight:600;font-size:22px;}
+  .campaign-pct.exceeded{color:var(--pos);}
+  .campaign-pct.mid{color:var(--teal);}
+  .campaign-pct.low{color:var(--gold-dark);}
+
+  .stack-bar{position:relative;height:52px;border-radius:10px;overflow:hidden;border:2px solid var(--line);}
+  .stack-fill{
+    position:absolute;left:0;top:0;height:100%;
+    display:flex;align-items:center;padding-left:14px;
+    transition:width .5s ease;
+  }
+  .stack-fill.exceeded{background:linear-gradient(to right, var(--pos), var(--pos-lighter));}
+  .stack-fill.progress{background:linear-gradient(to right, var(--teal), var(--teal-light));}
+  .stack-fill span{color:#fff;font-weight:600;font-size:13.5px;white-space:nowrap;}
+  .stack-deficit{
+    position:absolute;top:0;height:100%;
+    background-color:var(--paper-dim);
+    background-image:repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(60,79,110,0.15) 5px, rgba(60,79,110,0.15) 10px);
+    display:flex;align-items:center;justify-content:flex-end;padding-right:14px;
+  }
+  .stack-deficit span{color:var(--muted);font-weight:600;font-size:13px;white-space:nowrap;}
+  .campaign-foot{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:6px;}
+
+  .other-revenue-note{
+    margin-top:22px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted);
+  }
+  .other-revenue-note b{color:var(--ink-soft);}
+
+  /* Total bar */
+  .total-section{margin-top:28px;padding-top:22px;border-top:2px solid var(--line);}
+  .total-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px;}
+  .total-head .tlabel{font-family:'Fraunces',serif;font-weight:600;font-size:21px;color:var(--ink);}
+  .total-head .tpct{font-family:'Fraunces',serif;font-weight:600;font-size:32px;}
+  .total-head .tpct.hi{color:var(--pos);}
+  .total-head .tpct.mid{color:var(--teal);}
+  .total-head .tpct.lo{color:var(--gold-dark);}
+  .total-bar{position:relative;height:62px;border-radius:12px;overflow:hidden;border:2px solid var(--line-dark);}
+  .total-fill{
+    position:absolute;left:0;top:0;height:100%;
+    display:flex;align-items:center;padding-left:18px;
+    transition:width .5s ease;
+  }
+  .total-fill.exceeded{background:linear-gradient(to right, var(--pos), var(--pos-light));}
+  .total-fill.progress{background:linear-gradient(to right, var(--ink), var(--teal));}
+  .total-fill span{color:#fff;font-weight:600;font-size:17px;}
+  .total-deficit{
+    position:absolute;top:0;height:100%;
+    background-color:var(--paper-dim);
+    background-image:repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(60,79,110,0.15) 5px, rgba(60,79,110,0.15) 10px);
+    display:flex;align-items:center;justify-content:flex-end;padding-right:18px;
+  }
+  .total-deficit span{color:var(--ink-soft);font-weight:600;font-size:15px;}
+  .total-foot{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:10px;}
+
+  /* Detail table */
+  table.detail-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.detail-table th{
+    text-align:left;font-weight:600;color:var(--muted);
+    font-size:12px;padding:11px 14px;border-bottom:2px solid var(--line);
+  }
+  table.detail-table th.num,table.detail-table td.num{text-align:right;}
+  table.detail-table td{padding:11px 14px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;}
+  table.detail-table td.name-cell{font-family:'Inter',sans-serif;font-weight:500;color:var(--ink);}
+  table.detail-table tbody tr:hover{background:var(--paper-dim);}
+  table.detail-table tr.bequest-row{background:var(--gold-soft);}
+  table.detail-table tr.bequest-row:hover{background:var(--gold-soft);}
+  table.detail-table tr.total-row{background:var(--paper-dim);font-weight:600;}
+  .pos-text{color:var(--pos);font-weight:600;}
+  .neg-text{color:var(--neg);font-weight:600;}
+  .pct-hi{color:var(--pos);font-weight:600;}
+  .pct-mid{color:var(--teal);font-weight:600;}
+  .pct-lo{color:var(--gold-dark);font-weight:600;}
+  .unpredictable-tag{font-size:11px;color:var(--gold-dark);margin-left:6px;}
+
+  footer{
+    margin-top:32px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:11.5px;color:var(--muted);line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <div class="brand-eyebrow">Development &amp; Advancement · FY26 Results</div>
+      <h1>FY26 Campaign Results</h1>
+      <p class="sub">Final goal achievement by campaign, with and without Planned Giving.</p>
+    </div>
+    <div class="toggle-block">
+      <span class="toggle-label">View</span>
+      <div class="toggle" id="pgToggle">
+        <button data-mode="exclude" class="active">Excluding Planned Giving</button>
+        <button data-mode="include">All Campaigns</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div style="max-width:1180px;margin:0 auto 22px;padding:11px 16px;border:1px solid #E3B8B8;background:#F9ECEC;border-radius:9px;font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.5;color:#7A2E2E;">
+<strong>Portfolio sample.</strong> Every donor name, gift, fund and figure on this page is randomly generated for demonstration. No real constituent or organizational data is shown.
+</div>
+
+
+<div class="wrap">
+
+  <section class="block">
+    <div class="exec-summary">
+      <div class="icon">📊</div>
+      <div>
+        <h2>Executive Summary: FY26 Fundraising Results</h2>
+        <p><strong>Total revenue fell from $3.37M in FY25 to $2.28M in FY26 — a 32% drop.</strong> The decline is almost entirely a Planned Giving timing effect, not a reflection of overall fundraising performance.</p>
+        <ul>
+          <li>Planned Giving swung from $1.85M in FY25 down to $348K in FY26 — a $1.5M drop, -81% — accounting for more than the entire year-over-year revenue decline. Large bequests are lumpy and unpredictable by nature: one exceptional gift made FY25 look outstanding, and its absence made FY26 look weaker than it actually was, even though the underlying program is healthy — a pattern worth factoring into how single-year swings are interpreted going forward.</li>
+          <li>Excluding Planned Giving, the picture flips: core fundraising — Direct Marketing, Events, Major Gifts, and Other — grew 27% this year, from $1.52M to $1.94M.</li>
+        </ul>
+
+        <div class="insight-stack">
+          <div class="insight-card pos">
+            <p class="lead-line">Major Gifts is the clearest growth engine.</p>
+            <p>Revenue grew from $399K to $762K to $941K over three years — +136% cumulative. This is the most consistent, compounding growth story in the portfolio.</p>
+          </div>
+          <div class="insight-card teal">
+            <p class="lead-line">Events are a stable, growing base.</p>
+            <p>Revenue moved from $312K to $468K to $482K — steady growth of +54% cumulative, with no volatility. A reliable pillar.</p>
+          </div>
+          <div class="insight-card gold">
+            <p class="lead-line">Direct Marketing/Annual Fund dipped and has recovered.</p>
+            <p>It dropped 56% in FY25, then rebounded 118% in FY26, landing almost exactly flat against FY24. This is best characterized as recovered rather than simply up or down.</p>
+          </div>
+          <div class="insight-card gold">
+            <p class="lead-line">Institutional funding's apparent decline is a reporting change, not a real one.</p>
+            <p>Foundation and Government grants, bucketed as "Other," show a drop from $562K to $62K to $48K over three years. That is not a decline in institutional support — those gift types are no longer recorded in Raiser's Edge and are now tracked in their own external set of dashboards. This line should be read as a shrinking category in this system, not a shrinking program.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="combinedTrackerSection">
+    <div class="panel">
+      <div class="chart-head" style="margin-bottom:20px;">
+        <h2>🎯 FY26 Controllable Revenue Results</h2>
+      </div>
+      <p style="font-size:13px;color:var(--muted);margin:-14px 0 18px;">Direct Marketing + Event Income + Major Gifts Combined</p>
+
+      <div class="kpi-row">
+        <div class="kpi-mini goal">
+          <div class="label">Combined Goal</div>
+          <div class="value" id="ctGoal">—</div>
+        </div>
+        <div class="kpi-mini raised">
+          <div class="label">Total Raised</div>
+          <div class="value" id="ctRaised">—</div>
+          <div class="sub" id="ctRaisedPct">—</div>
+        </div>
+        <div class="kpi-mini" id="ctGapCard">
+          <div class="label" id="ctGapLabel">—</div>
+          <div class="value" id="ctGapValue">—</div>
+        </div>
+      </div>
+
+      <div class="progress-head">
+        <span class="ptitle">Progress to Goal</span>
+        <span class="ppct" id="ctProgressPct">—</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="ctProgressFill"><span id="ctProgressLabel">—</span></div>
+      </div>
+
+      <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line);">
+        <div class="breakdown-title">Breakdown by Campaign</div>
+        <div class="breakdown-grid" id="ctBreakdownGrid"></div>
+        <div class="breakdown-footnote">Note: Other ($47,800) and Northgate Academy ($2,150) included in total raised but have no goal amounts.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="comparisonBannerSection">
+    <div class="comparison-banner">
+      <div class="cb-top">
+        <div>
+          <h2>🎯 Controllable Fundraising Results</h2>
+          <div class="cb-sub">Excluding unpredictable Planned Giving</div>
+        </div>
+        <div>
+          <div class="cb-pct" id="cbPct">—</div>
+          <div class="cb-pct-label">of Goal</div>
+        </div>
+      </div>
+      <div class="cb-grid">
+        <div class="cb-card">
+          <div class="cbc-label">With Planned Giving</div>
+          <div class="cbc-value" id="cbWithPct">—</div>
+          <div class="cbc-gap" id="cbWithGap">—</div>
+        </div>
+        <div class="cb-card active">
+          <div class="cbc-label">Without Planned Giving</div>
+          <div class="cbc-value" id="cbExclPct">—</div>
+          <div class="cbc-gap" id="cbExclGap">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="stats-grid" id="statsGrid"></div>
+  </section>
+
+  <section class="block">
+    <div class="panel">
+      <div class="chart-head">
+        <h2 id="chartTitle">Campaigns</h2>
+        <div class="legend-row">
+          <div class="legend-item"><span class="legend-swatch" style="background:linear-gradient(to right, var(--teal), var(--teal-light));"></span>Raised</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:var(--paper-dim);border:1px dashed var(--line-dark);"></span>Remaining to Goal</div>
+        </div>
+      </div>
+
+      <div id="campaignBars"></div>
+
+      <div class="other-revenue-note">
+        <b>Other Revenue (no goal):</b> <span id="otherRevenueText"></span> included in total raised (Other: $47,800 + Northgate Academy: $2,150)
+      </div>
+
+      <div class="total-section">
+        <div class="total-head">
+          <span class="tlabel" id="totalLabel">TOTAL</span>
+          <span class="tpct" id="totalPct">—</span>
+        </div>
+        <div class="total-bar">
+          <div class="total-fill" id="totalFill"><span id="totalFillLabel">—</span></div>
+          <div class="total-deficit" id="totalDeficit" style="display:none;"><span id="totalDeficitLabel"></span></div>
+        </div>
+        <div class="total-foot">
+          <span id="totalFootRaised">—</span>
+          <span id="totalFootGoal">—</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="panel">
+      <h2 style="font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin:0 0 18px;color:var(--ink);">📋 Detailed Breakdown</h2>
+      <table class="detail-table">
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th class="num">FY26 Goal</th>
+            <th class="num">Total Raised</th>
+            <th class="num">Surplus/(Deficit)</th>
+            <th class="num">% of Goal</th>
+          </tr>
+        </thead>
+        <tbody id="detailBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    Source: FY26 final campaign results, revised classification. Planned Giving is shown separately given its volatility year to year; toggle above to include or exclude it from all totals, charts, and the table below.
+  </footer>
+
+</div>
+
+<script id="dashboard-data" type="application/json">{"allCampaigns":[{"name":"Major Gifts","raised":941300,"goal":880000},{"name":"Event Income","raised":481700,"goal":540000},{"name":"Direct Marketing","raised":463900,"goal":600000},{"name":"Planned Giving","raised":348000,"goal":1600000,"isBequest":true}],"otherRevenue":49950}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+const allCampaigns = DATA.allCampaigns;
+const otherRevenue = DATA.otherRevenue;
+const campaignsExcludingBequests = allCampaigns.filter(c => !c.isBequest);
+
+let state = { mode: 'exclude' }; // 'exclude' = excluding planned giving (default), 'include' = all campaigns
+
+const money = v => '$' + Math.round(v).toLocaleString('en-US');
+const formatCurrency = (n) => {
+  if (Math.abs(n) >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1000) return '$' + (n / 1000).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+};
+const formatFullCurrency = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+function computeTotals(campaigns){
+  const totalRaised = campaigns.reduce((s,c)=>s+c.raised,0) + otherRevenue;
+  const totalGoal = campaigns.reduce((s,c)=>s+c.goal,0);
+  const pct = (totalRaised/totalGoal)*100;
+  const gap = totalGoal - totalRaised;
+  return {totalRaised, totalGoal, pct, gap};
+}
+
+const withBequests = computeTotals(allCampaigns);
+const excludingBequests = computeTotals(campaignsExcludingBequests);
+
+function pctClass(pct){
+  if(pct >= 100) return 'exceeded';
+  if(pct >= 50) return 'mid';
+  return 'low';
+}
+
+function render(){
+  const showBequests = state.mode === 'include';
+  document.querySelectorAll('#pgToggle button').forEach(b=>b.classList.toggle('active', b.dataset.mode===state.mode));
+
+  const campaigns = showBequests ? allCampaigns : campaignsExcludingBequests;
+  const totals = showBequests ? withBequests : excludingBequests;
+  const { totalRaised, totalGoal, pct: overallPct, gap } = totals;
+  const maxGoal = Math.max(...campaigns.map(c=>c.goal));
+
+  // ---- Combined Controllable Revenue Tracker (only when excluding PG) ----
+  document.getElementById('combinedTrackerSection').style.display = showBequests ? 'none' : 'block';
+  document.getElementById('comparisonBannerSection').style.display = showBequests ? 'none' : 'block';
+
+  if(!showBequests){
+    document.getElementById('ctGoal').textContent = formatCurrency(excludingBequests.totalGoal);
+    document.getElementById('ctRaised').textContent = formatCurrency(excludingBequests.totalRaised);
+    document.getElementById('ctRaisedPct').textContent = excludingBequests.pct.toFixed(1) + '% of goal';
+
+    const gapCard = document.getElementById('ctGapCard');
+    const gapLabel = document.getElementById('ctGapLabel');
+    const gapValue = document.getElementById('ctGapValue');
+    const eGap = excludingBequests.gap;
+    gapCard.className = 'kpi-mini ' + (eGap > 0 ? 'gap-neg' : 'gap-pos');
+    gapLabel.textContent = eGap > 0 ? 'Below Goal' : 'Over Goal';
+    gapValue.textContent = (eGap > 0 ? '-' : '+') + formatCurrency(Math.abs(eGap));
+
+    document.getElementById('ctProgressPct').textContent = excludingBequests.pct.toFixed(1) + '%';
+    const fill = document.getElementById('ctProgressFill');
+    fill.style.width = Math.min(excludingBequests.pct, 100) + '%';
+    document.getElementById('ctProgressLabel').textContent = formatCurrency(excludingBequests.totalRaised) + ' raised';
+
+    const grid = document.getElementById('ctBreakdownGrid');
+    grid.innerHTML = campaignsExcludingBequests.map(c=>{
+      const p = (c.raised/c.goal)*100;
+      const over = p >= 100;
+      const delta = Math.abs(c.raised - c.goal);
+      return `<div class="breakdown-item ${over?'over':'under'}">
+        <div>
+          <div class="biname">${c.name}</div>
+          <div class="bisub">${formatCurrency(c.raised)} of ${formatCurrency(c.goal)}</div>
+        </div>
+        <div>
+          <div class="bipct">${p.toFixed(0)}%</div>
+          <div class="bidelta">${over ? '+'+formatCurrency(delta)+' over ✓' : formatCurrency(delta)+' below'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ---- Comparison banner ----
+  if(!showBequests){
+    document.getElementById('cbPct').textContent = excludingBequests.pct.toFixed(1) + '%';
+    document.getElementById('cbWithPct').textContent = withBequests.pct.toFixed(1) + '%';
+    document.getElementById('cbWithGap').textContent = (withBequests.gap > 0 ? 'Below' : 'Over') + ': ' + formatCurrency(Math.abs(withBequests.gap));
+    document.getElementById('cbExclPct').textContent = excludingBequests.pct.toFixed(1) + '%';
+    document.getElementById('cbExclGap').textContent = (excludingBequests.gap > 0 ? 'Below' : 'Over') + ': ' + formatCurrency(Math.abs(excludingBequests.gap));
+  }
+
+  // ---- Summary stats ----
+  const statsGrid = document.getElementById('statsGrid');
+  const gapIsPos = gap <= 0;
+  statsGrid.innerHTML = `
+    <div class="stat-card raised">
+      <div class="sval">${formatCurrency(totalRaised)}</div>
+      <div class="slabel">Total Raised</div>
+    </div>
+    <div class="stat-card goal">
+      <div class="sval">${formatCurrency(totalGoal)}</div>
+      <div class="slabel">FY26 Goal</div>
+    </div>
+    <div class="stat-card ${gapIsPos ? 'gap-pos' : 'gap-neg'}">
+      <div class="sval">${gapIsPos ? '+' : '-'}${formatCurrency(Math.abs(gap))}</div>
+      <div class="slabel">${gapIsPos ? 'Over Goal' : 'Below Goal'}</div>
+    </div>
+    <div class="stat-card ${overallPct >= 75 ? 'pct-hi' : 'pct-lo'}">
+      <div class="sval">${overallPct.toFixed(1)}%</div>
+      <div class="slabel">of Goal</div>
+    </div>
+  `;
+
+  // ---- Chart title ----
+  document.getElementById('chartTitle').textContent = showBequests ? 'All Campaigns' : 'Campaigns (Excluding Planned Giving)';
+
+  // ---- Campaign stacked bars ----
+  const barsEl = document.getElementById('campaignBars');
+  barsEl.innerHTML = campaigns.map(campaign=>{
+    const pctRaised = (campaign.raised/campaign.goal)*100;
+    const exceeded = campaign.raised > campaign.goal;
+    const deficit = Math.max(0, campaign.goal - campaign.raised);
+    const surplus = Math.max(0, campaign.raised - campaign.goal);
+    const barScale = campaign.goal/maxGoal*100;
+    const raisedWidth = Math.min(pctRaised, 100);
+    const pctCls = exceeded ? 'exceeded' : (pctRaised >= 50 ? 'mid' : 'low');
+
+    return `<div class="campaign-row ${campaign.isBequest?'bequest':''}">
+      <div class="campaign-label-row">
+        <div>
+          <span class="campaign-name">${campaign.name}</span>
+          ${exceeded ? `<span class="badge over">+${formatCurrency(surplus)} OVER GOAL ✓</span>` : ''}
+          ${campaign.isBequest ? `<span class="badge unpredictable">Unpredictable</span>` : ''}
+        </div>
+        <div class="campaign-pct ${pctCls}">${pctRaised.toFixed(1)}%</div>
+      </div>
+      <div class="stack-bar" style="width:${barScale}%;">
+        <div class="stack-fill ${exceeded?'exceeded':'progress'}" style="width:${raisedWidth}%;">
+          <span>${formatCurrency(campaign.raised)}</span>
+        </div>
+        ${!exceeded ? `<div class="stack-deficit" style="left:${raisedWidth}%;width:${100-raisedWidth}%;">
+          <span>-${formatCurrency(deficit)}</span>
+        </div>` : ''}
+      </div>
+      <div class="campaign-foot">
+        <span>Raised: ${formatFullCurrency(campaign.raised)}</span>
+        <span>Goal: ${formatFullCurrency(campaign.goal)}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('otherRevenueText').textContent = formatCurrency(otherRevenue);
+
+  // ---- Total bar ----
+  document.getElementById('totalLabel').textContent = 'TOTAL' + (!showBequests ? ' (Excl. Planned Giving)' : '');
+  const totalPctEl = document.getElementById('totalPct');
+  totalPctEl.textContent = overallPct.toFixed(1) + '%';
+  totalPctEl.className = 'tpct ' + (overallPct >= 100 ? 'hi' : overallPct >= 75 ? 'mid' : 'lo');
+
+  const totalFill = document.getElementById('totalFill');
+  totalFill.className = 'total-fill ' + (overallPct >= 100 ? 'exceeded' : 'progress');
+  totalFill.style.width = Math.min(overallPct, 100) + '%';
+  document.getElementById('totalFillLabel').textContent = formatCurrency(totalRaised);
+
+  const totalDeficit = document.getElementById('totalDeficit');
+  if(gap > 0){
+    totalDeficit.style.display = 'flex';
+    totalDeficit.style.left = Math.min(overallPct,100) + '%';
+    totalDeficit.style.width = (100 - Math.min(overallPct,100)) + '%';
+    document.getElementById('totalDeficitLabel').textContent = '-' + formatCurrency(gap) + ' below goal';
+  } else {
+    totalDeficit.style.display = 'none';
+  }
+
+  document.getElementById('totalFootRaised').textContent = 'Raised: ' + formatFullCurrency(totalRaised);
+  document.getElementById('totalFootGoal').textContent = 'Goal: ' + formatFullCurrency(totalGoal);
+
+  // ---- Detail table ----
+  const tbody = document.getElementById('detailBody');
+  let rows = campaigns.map(c=>{
+    const diff = c.raised - c.goal;
+    const pct = (c.raised/c.goal)*100;
+    const pctCls = pct >= 100 ? 'pct-hi' : pct >= 50 ? 'pct-mid' : 'pct-lo';
+    return `<tr class="${c.isBequest?'bequest-row':''}">
+      <td class="name-cell">${c.name}${c.isBequest ? '<span class="unpredictable-tag">(unpredictable)</span>' : ''}</td>
+      <td class="num">${formatFullCurrency(c.goal)}</td>
+      <td class="num">${formatFullCurrency(c.raised)}</td>
+      <td class="num ${diff>=0?'pos-text':'neg-text'}">${diff>=0?'+':''}${formatFullCurrency(diff)}</td>
+      <td class="num"><span class="${pctCls}">${pct.toFixed(1)}%</span></td>
+    </tr>`;
+  }).join('');
+
+  const totalPctCls = overallPct >= 100 ? 'pct-hi' : overallPct >= 50 ? 'pct-mid' : 'pct-lo';
+  rows += `<tr class="total-row">
+    <td class="name-cell">TOTAL${!showBequests ? ' (Excl. Planned Giving)' : ''}</td>
+    <td class="num">${formatFullCurrency(totalGoal)}</td>
+    <td class="num">${formatFullCurrency(totalRaised)}</td>
+    <td class="num ${gap<=0?'pos-text':'neg-text'}">${gap<=0?'+':''}${formatFullCurrency(-gap)}</td>
+    <td class="num"><span class="${totalPctCls}">${overallPct.toFixed(1)}%</span></td>
+  </tr>`;
+  tbody.innerHTML = rows;
+}
+
+document.getElementById('pgToggle').addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  state.mode = btn.dataset.mode;
+  render();
+});
+
+render();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundraising Analytics Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7FA;
+    --paper-dim:#E9EDF3;
+    --ink:#1D2E48;
+    --ink-soft:#3C4F6E;
+    --muted:#6B7A93;
+    --line:#D7DEE8;
+    --gold:#C9A227;
+    --gold-soft:#F2E7C3;
+    --gold-dark:#8A6B1D;
+    --teal:#2E6B8A;
+    --neg:#B23A3A;
+    --neg-soft:#F9ECEC;
+    --neg-border:#E3B8B8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:38px 24px 32px;
+    border-bottom:6px solid var(--gold);
+    text-align:center;
+  }
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    margin:0;
+    letter-spacing:-.01em;
+  }
+  header .sub{
+    margin:12px auto 0;
+    max-width:640px;
+    font-size:13.5px;
+    line-height:1.6;
+    color:#C6D2E4;
+  }
+  main{
+    flex:1;
+    width:100%;
+    max-width:820px;
+    margin:0 auto;
+    padding:40px 24px 60px;
+  }
+  .notice{
+    border:1px solid var(--neg-border);
+    background:var(--neg-soft);
+    color:#7A2E2E;
+    border-radius:10px;
+    padding:14px 18px;
+    font-size:12.5px;
+    line-height:1.6;
+    margin-bottom:34px;
+  }
+  .intro{
+    font-size:14px;
+    line-height:1.7;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+  }
+  .intro:last-of-type{margin-bottom:34px;}
+  .card-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:640px){.card-grid{grid-template-columns:1fr;}}
+  .dash-card{
+    display:block;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px 22px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .dash-card:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .dash-card .dc-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:8px;
+  }
+  .dash-card h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:18px;
+    margin:0 0 6px;
+  }
+  .dash-card p{
+    font-size:12.5px;
+    color:var(--muted);
+    margin:0;
+    line-height:1.5;
+  }
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:34px 0 16px;
+  }
+  .section-title:first-of-type{margin-top:0;}
+  .section-title h3{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0;
+    white-space:nowrap;
+  }
+  .section-title .rule{flex:1;height:1px;background:var(--line);}
+  .dash-card.prototype{border-style:dashed;}
+  .dash-card.prototype .dc-eyebrow{color:var(--gold-dark);}
+  .skills{
+    margin-top:38px;
+    padding:20px 22px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  .skills h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:16px;
+    margin:0 0 12px;
+  }
+  .skills ul{margin:0;padding-left:18px;}
+  .skills li{font-size:13px;line-height:1.7;color:var(--ink-soft);}
+  footer{
+    text-align:center;
+    padding:20px 24px 26px;
+    font-size:11.5px;
+    color:var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-eyebrow">Nonprofit Fundraising Analytics</div>
+  <h1>Dashboard Portfolio</h1>
+  <p class="sub">A suite of reporting dashboards built for a nonprofit development office — annual performance, donor retention, campaign goal tracking, and weekly gift reporting.</p>
+</header>
+
+<main>
+  <div class="notice">
+    <strong>All data on this site is fictional.</strong> These dashboards were rebuilt for portfolio purposes with randomly generated donors, gifts, campaigns, and revenue figures for a fictional organization, "Northgate Youth Foundation." No real constituent records, donor names, or organizational financials appear anywhere on this site. The dashboard design, calculation logic, and data model are my own work.
+  </div>
+
+  <p class="intro">Each dashboard is a single self-contained HTML file — no build step, no server, no database. Data is pre-aggregated at build time and embedded as JSON, then rendered client-side with Chart.js. That keeps them fast to load, trivial to host, and easy to hand to a colleague as a file.</p>
+  <p class="intro">The underlying source data in production is gift-level export from Raiser's Edge NXT, transformed into the metrics below. The <a href="dashboards/dashboard-reference.html" style="color:var(--teal);">Dashboard Reference</a> documents every metric definition, filtering rule, and data relationship behind these pages.</p>
+
+  <div class="section-title"><h3>Annual &amp; Campaign Reporting</h3><div class="rule"></div></div>
+  <div class="card-grid">
+    <a class="dash-card" href="dashboards/fundraising-performance-fy26.html">
+      <div class="dc-eyebrow">Annual · FY24–FY26</div>
+      <h2>Fundraising Overview</h2>
+      <p>Revenue, gift volume, and donor retention (New / Retained / Recaptured / LYBUNT / SYBUNT) with searchable donor rosters.</p>
+    </a>
+    <a class="dash-card" href="dashboards/campaign-revenue.html">
+      <div class="dc-eyebrow">FY24 – FY26</div>
+      <h2>Year-over-Year Fundraising</h2>
+      <p>Revenue by campaign before and after a classification cleanup, plus three-year trend and change analysis.</p>
+    </a>
+    <a class="dash-card" href="dashboards/fy26-progress-to-goal.html">
+      <div class="dc-eyebrow">FY26 · Final Results</div>
+      <h2>Progress to Goal</h2>
+      <p>Final campaign results against goal, with an include/exclude toggle for Planned Giving.</p>
+    </a>
+    <a class="dash-card" href="dashboards/july-giving-yoy.html">
+      <div class="dc-eyebrow">Monthly · Year-over-Year</div>
+      <h2>July Giving: 2026 vs. 2025</h2>
+      <p>A single month compared year over year — revenue, gifts, donors, daily pattern, and campaign mix.</p>
+    </a>
+  </div>
+
+  <div class="section-title"><h3>Weekly Gift Reporting</h3><div class="rule"></div></div>
+  <div class="card-grid">
+    <a class="dash-card" href="dashboards/weekly-giving-jul27-aug2.html">
+      <div class="dc-eyebrow">Weekly Report</div>
+      <h2>Week of July 27 – August 2</h2>
+      <p>Gift-level detail with fiscal-year-to-date rollups by campaign, appeal, and fund.</p>
+    </a>
+    <a class="dash-card" href="dashboards/weekly-giving-jul20-26.html">
+      <div class="dc-eyebrow">Weekly Report</div>
+      <h2>Week of July 20 – 26</h2>
+      <p>Gift-level detail with fiscal-year-to-date rollups by campaign, appeal, and fund.</p>
+    </a>
+    <a class="dash-card" href="dashboards/weekly-giving-jul13-19.html">
+      <div class="dc-eyebrow">Weekly Report</div>
+      <h2>Week of July 13 – 19</h2>
+      <p>Gift-level detail with fiscal-year-to-date rollups by campaign, appeal, and fund.</p>
+    </a>
+    <a class="dash-card" href="dashboards/weekly-giving-jul6-12.html">
+      <div class="dc-eyebrow">Weekly Report</div>
+      <h2>Week of July 6 – 12</h2>
+      <p>Gift-level detail with fiscal-year-to-date rollups by campaign, appeal, and fund.</p>
+    </a>
+    <a class="dash-card" href="dashboards/weekly-giving-jul1-5.html">
+      <div class="dc-eyebrow">Weekly Report</div>
+      <h2>Week of July 1 – 5</h2>
+      <p>First week of the fiscal year — the FYTD baseline every later week builds on.</p>
+    </a>
+  </div>
+
+  <div class="section-title"><h3>Prototypes</h3><div class="rule"></div></div>
+  <div class="card-grid">
+    <a class="dash-card prototype" href="dashboards/officer-performance.html">
+      <div class="dc-eyebrow">Prototype · Sample Data</div>
+      <h2>Development Officer Performance</h2>
+      <p>Weekly moves-management activity, stale-contact flags, portfolio yield, and closed-won proposals by officer.</p>
+    </a>
+  </div>
+
+  <div class="section-title"><h3>Documentation</h3><div class="rule"></div></div>
+  <div class="card-grid">
+    <a class="dash-card" href="dashboards/dashboard-reference.html">
+      <div class="dc-eyebrow">Reference</div>
+      <h2>Dashboard Reference</h2>
+      <p>Metric definitions, calculation logic, data schema, entity relationships, and the export SOP behind every dashboard here.</p>
+    </a>
+  </div>
+
+  <div class="skills">
+    <h3>What this work involved</h3>
+    <ul>
+      <li>Designing donor-movement logic (New / Retained / Recaptured / Lapsed / LYBUNT / SYBUNT) from gift-level data keyed on constituent ID across fiscal years.</li>
+      <li>Reconciling a campaign reclassification project and quantifying its effect on reported revenue year over year.</li>
+      <li>Building a repeatable weekly reporting pipeline with cumulative fiscal-year-to-date rollups by campaign, appeal, and fund.</li>
+      <li>Writing the metric definitions, filtering rules, and standard operating procedures so the reports can be reproduced by someone else.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>Portfolio sample · All data shown is synthetic</footer>
+
+</body>
+</html>

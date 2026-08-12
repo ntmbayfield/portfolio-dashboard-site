@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Development Officer Performance Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7FA;
+    --paper-dim:#E9EDF3;
+    --ink:#1D2E48;
+    --ink-soft:#3C4F6E;
+    --muted:#6B7A93;
+    --line:#D7DEE8;
+    --line-dark:#B9C4D6;
+    --gold:#C9A227;
+    --gold-soft:#F2E7C3;
+    --gold-dark:#8A6B1D;
+    --teal:#2E6B8A;
+    --teal-light:#4A87A8;
+    --teal-soft:#DCEAF1;
+    --teal-border:#BFDCE8;
+    --pos:#2E7D5B;
+    --pos-light:#3F9873;
+    --pos-dark:#1F5A40;
+    --pos-soft:#DCEAE2;
+    --pos-border:#8FC2A8;
+    --neg:#B23A3A;
+    --neg-soft:#F3DCDC;
+    --neg-border:#E3B8B8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px 80px;}
+
+  .prototype-banner{
+    background:var(--gold-soft);
+    color:var(--gold-dark);
+    text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.03em;
+    padding:8px 16px;
+  }
+
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:32px 0 28px;
+    margin-bottom:32px;
+    border-bottom:6px solid var(--gold);
+  }
+  header .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:32px;
+    line-height:1.05;
+    margin:0 0 8px;
+    letter-spacing:-.01em;
+  }
+  header p.sub{
+    margin:0;
+    font-size:14px;
+    color:#B7C2D6;
+    max-width:480px;
+    line-height:1.5;
+  }
+
+  .officer-block{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+  .officer-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:#B7C2D6;
+  }
+  .officer-tabs{
+    display:flex;
+    background:#0F1826;
+    border:1px solid #2C3B54;
+    border-radius:999px;
+    padding:4px;
+    gap:4px;
+  }
+  .officer-tabs button{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    border:none;
+    background:transparent;
+    color:#8FA0BC;
+    padding:9px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .officer-tabs button.active{
+    background:var(--gold);
+    color:var(--ink);
+  }
+
+  .officer-card{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:18px 22px;margin-bottom:28px;flex-wrap:wrap;gap:10px;
+  }
+  .officer-card .oc-name{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--ink);}
+  .officer-card .oc-title{font-size:13px;color:var(--muted);margin-top:2px;}
+  .officer-card .oc-portfolio{text-align:right;}
+  .officer-card .oc-portfolio .n{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--teal);}
+  .officer-card .oc-portfolio .l{font-size:11.5px;color:var(--muted);}
+
+  section.block{margin-bottom:40px;}
+  .block-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:10px;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px;
+    margin-bottom:20px;
+  }
+  .block-head h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:21px;
+    margin:0;
+  }
+  .block-head .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* KPI cards */
+  .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  @media (max-width:980px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+  .kpi-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:center;}
+  .kpi-card .kpi-label{
+    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:8px;
+  }
+  .kpi-card .kpi-value{font-family:'Fraunces',serif;font-weight:600;font-size:25px;color:var(--ink);}
+  .kpi-card .kpi-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+  .kpi-card.total{background:var(--ink);}
+  .kpi-card.total .kpi-label{color:#B7C2D6;}
+  .kpi-card.total .kpi-value{color:#fff;}
+  .kpi-card.total .kpi-sub{color:#B7C2D6;}
+  .kpi-card.warn{background:var(--neg-soft);border-color:var(--neg-border);}
+  .kpi-card.warn .kpi-value,.kpi-card.warn .kpi-label{color:var(--neg);}
+  .kpi-card.gold-tone{background:var(--gold-soft);border-color:var(--gold);}
+  .kpi-card.gold-tone .kpi-value,.kpi-card.gold-tone .kpi-label{color:var(--gold-dark);}
+  .kpi-card.pos-tone{background:var(--pos-soft);border-color:var(--pos-border);}
+  .kpi-card.pos-tone .kpi-value,.kpi-card.pos-tone .kpi-label{color:var(--pos-dark);}
+  .kpi-card.teal-tone{background:var(--teal-soft);border-color:var(--teal-border);}
+  .kpi-card.teal-tone .kpi-value,.kpi-card.teal-tone .kpi-label{color:var(--teal);}
+
+  /* Action type breakdown bars */
+  .action-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px;}
+  @media (max-width:900px){.action-grid{grid-template-columns:repeat(2,1fr);}}
+  .action-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .action-card .a-label{font-size:12.5px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;}
+  .action-card .a-value{font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:var(--ink);margin-bottom:8px;}
+  .action-track{height:6px;background:var(--paper-dim);border-radius:4px;overflow:hidden;}
+  .action-fill{height:100%;border-radius:4px;}
+  .action-card.qualification .action-fill{background:var(--teal);}
+  .action-card.cultivation .action-fill{background:var(--gold);}
+  .action-card.solicitation .action-fill{background:var(--pos);}
+  .action-card.stewardship .action-fill{background:var(--ink-soft);}
+
+  /* Portfolio composition + yield */
+  .portfolio-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:900px){.portfolio-grid{grid-template-columns:1fr;}}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;}
+  .panel h3{font-family:'Fraunces',serif;font-weight:600;font-size:16px;margin:0 0 16px;color:var(--ink);}
+
+  .composition-bar{position:relative;height:34px;border-radius:999px;overflow:hidden;background:var(--paper-dim);display:flex;}
+  .composition-donors{background:linear-gradient(to right,var(--pos),var(--pos-light));display:flex;align-items:center;justify-content:center;color:#fff;font-size:12.5px;font-weight:600;}
+  .composition-nondonors{background:var(--paper-dim);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12.5px;font-weight:600;}
+  .composition-legend{display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--muted);}
+  .composition-legend b{color:var(--ink);}
+
+  .yield-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .yield-head .ypct{font-family:'Fraunces',serif;font-weight:600;font-size:24px;}
+  .yield-head .ypct.hi{color:var(--pos);}
+  .yield-head .ypct.mid{color:var(--teal);}
+  .yield-head .ypct.lo{color:var(--gold-dark);}
+  .yield-track{height:30px;border-radius:999px;background:var(--paper-dim);overflow:hidden;}
+  .yield-fill{height:100%;display:flex;align-items:center;padding-left:12px;border-radius:999px;transition:width .4s ease;}
+  .yield-fill span{color:#fff;font-weight:600;font-size:12.5px;white-space:nowrap;}
+  .yield-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:8px;}
+
+  /* Detail tabs */
+  .detail-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .detail-tabs button{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.03em;
+    background:var(--paper-dim);border:1px solid var(--line);color:var(--ink-soft);
+    padding:9px 15px 8px;cursor:pointer;
+  }
+  .detail-tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink);font-weight:600;}
+  table.detail-table{width:100%;border-collapse:collapse;font-size:13px;}
+  table.detail-table th{
+    text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;padding:9px 10px;border-bottom:2px solid var(--line);
+  }
+  table.detail-table th.num,table.detail-table td.num{text-align:right;}
+  table.detail-table td{padding:9px 10px;border-bottom:1px solid var(--line);font-family:'IBM Plex Mono',monospace;}
+  table.detail-table td.name-cell{font-family:'Inter',sans-serif;font-weight:500;color:var(--ink);}
+  table.detail-table tbody tr:hover{background:var(--paper-dim);}
+  .stale-flag{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;}
+  .stale-flag.high{background:var(--neg-soft);color:var(--neg);}
+  .stale-flag.mid{background:var(--gold-soft);color:var(--gold-dark);}
+  .detail-empty{padding:26px;text-align:center;color:var(--muted);font-size:13px;}
+
+  footer{
+    margin-top:32px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:11.5px;color:var(--muted);line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="prototype-banner">PROTOTYPE — illustrative sample data, not connected to a live database</div>
+
+<header>
+  <div class="wrap">
+    <div>
+      <div class="brand-eyebrow">Development &amp; Advancement · Officer Performance</div>
+      <h1>Development Officer Performance</h1>
+      <p class="sub">Weekly activity and portfolio performance, by officer.</p>
+    </div>
+    <div class="officer-block">
+      <span class="officer-label">Officer</span>
+      <div class="officer-tabs" id="officerTabs"></div>
+    </div>
+  </div>
+</header>
+
+<div style="max-width:1180px;margin:0 auto 22px;padding:11px 16px;border:1px solid #E3B8B8;background:#F9ECEC;border-radius:9px;font-family:'Inter',sans-serif;font-size:12.5px;line-height:1.5;color:#7A2E2E;">
+<strong>Portfolio sample.</strong> Every donor name, gift, fund and figure on this page is randomly generated for demonstration. No real constituent or organizational data is shown.
+</div>
+
+
+<div class="wrap">
+
+  <div class="officer-card">
+    <div>
+      <div class="oc-name" id="ocName">—</div>
+      <div class="oc-title" id="ocTitle">—</div>
+    </div>
+    <div class="oc-portfolio">
+      <div class="n" id="ocPortfolioSize">—</div>
+      <div class="l">Portfolio Size</div>
+    </div>
+  </div>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>This Week's Activity</h2>
+      <span class="tag" id="weekTag"></span>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="kpi-card total">
+        <div class="kpi-label">Total Actions</div>
+        <div class="kpi-value" id="kpiTotalActions">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Open Proposals</div>
+        <div class="kpi-value" id="kpiOpenProposals">—</div>
+        <div class="kpi-sub" id="kpiOpenProposalsSub">—</div>
+      </div>
+      <div class="kpi-card pos-tone">
+        <div class="kpi-label">Gifts This Week</div>
+        <div class="kpi-value" id="kpiGiftsWeek">—</div>
+        <div class="kpi-sub" id="kpiGiftsWeekSub">—</div>
+      </div>
+    </div>
+    <div class="action-grid" id="actionGrid"></div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>Contact &amp; Stewardship Flags</h2>
+      <span class="tag">Portfolio Attention Needed</span>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="kpi-card warn">
+        <div class="kpi-label">No Contact in 10+ Days</div>
+        <div class="kpi-value" id="kpiStale">—</div>
+        <div class="kpi-sub">of portfolio</div>
+      </div>
+      <div class="kpi-card gold-tone">
+        <div class="kpi-label">Upcoming Birthdays</div>
+        <div class="kpi-value" id="kpiBirthdays">—</div>
+        <div class="kpi-sub">next 14 days</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>Portfolio Composition &amp; Yield</h2>
+      <span class="tag">Fiscal Year to Date</span>
+    </div>
+    <div class="portfolio-grid">
+      <div class="panel">
+        <h3>Donors vs. Non-Donors FYTD</h3>
+        <div class="composition-bar" id="compositionBar"></div>
+        <div class="composition-legend">
+          <span><b id="legendDonors">—</b> donors</span>
+          <span><b id="legendNonDonors">—</b> non-donors</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Portfolio Yield vs. Goal</h3>
+        <div class="yield-head">
+          <span style="font-size:13px;color:var(--muted);">FYTD Raised</span>
+          <span class="ypct" id="yieldPct">—</span>
+        </div>
+        <div class="yield-track">
+          <div class="yield-fill" id="yieldFill"><span id="yieldFillLabel">—</span></div>
+        </div>
+        <div class="yield-foot">
+          <span id="yieldRaised">—</span>
+          <span id="yieldGoal">—</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>Closed Won Proposals</h2>
+      <span class="tag">Fiscal Year to Date</span>
+    </div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:20px;">
+      <div class="kpi-card pos-tone">
+        <div class="kpi-label">Proposals Closed Won</div>
+        <div class="kpi-value" id="kpiClosedWonCount">—</div>
+        <div class="kpi-sub">FYTD</div>
+      </div>
+      <div class="kpi-card pos-tone">
+        <div class="kpi-label">Total Closed Won</div>
+        <div class="kpi-value" id="kpiClosedWonAmount">—</div>
+        <div class="kpi-sub">FYTD</div>
+      </div>
+    </div>
+    <div class="panel">
+      <table class="detail-table">
+        <thead>
+          <tr><th>Donor</th><th>Proposal Name</th><th class="num">Date Closed</th><th class="num">Amount</th></tr>
+        </thead>
+        <tbody id="closedWonBody"></tbody>
+      </table>
+      <div class="detail-empty" id="closedWonEmpty" style="display:none;">No proposals closed won yet this fiscal year.</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>Portfolio Detail</h2>
+      <span class="tag">Drill-Down Lists</span>
+    </div>
+    <div class="panel">
+      <div class="detail-tabs" id="detailTabs"></div>
+      <table class="detail-table">
+        <thead><tr id="detailHeaderRow"></tr></thead>
+        <tbody id="detailBody"></tbody>
+      </table>
+      <div class="detail-empty" id="detailEmpty" style="display:none;">No records in this category.</div>
+    </div>
+  </section>
+
+  <footer>
+    Prototype dashboard — all names, dollar amounts, and activity counts are illustrative sample data for design review, not real constituent records. Action-type categories (Qualification, Cultivation, Solicitation, Stewardship) follow standard moves-management stages. Once approved, this would be wired to live contact-report and proposal data from Raiser's Edge.
+  </footer>
+
+</div>
+
+<script id="dashboard-data" type="application/json">
+{
+  "asOf": "2026-07-12",
+  "officers": [
+    {
+      "id": "mwatkins",
+      "name": "Alexis Moreau",
+      "title": "Senior Major Gifts Officer",
+      "portfolioSize": 90,
+      "actionsThisWeek": { "qualification": 2, "cultivation": 6, "solicitation": 3, "stewardship": 3 },
+      "openProposals": [
+        { "name": "Robert & Elaine Chen", "proposalName": "Chen Family Scholarship Endowment", "amount": 250000, "stage": "Negotiation", "expectedClose": "2026-08-15" },
+        { "name": "Margaret Ostrander", "proposalName": "Legacy Circle Leadership Gift", "amount": 150000, "stage": "Pending Decision", "expectedClose": "2026-07-30" },
+        { "name": "The Bellweather Family Trust", "proposalName": "Northgate Academy Program Fund", "amount": 100000, "stage": "Drafting Proposal", "expectedClose": "2026-09-01" },
+        { "name": "Harold Finch", "proposalName": "Annual Fund Major Gift", "amount": 75000, "stage": "Negotiation", "expectedClose": "2026-08-01" },
+        { "name": "Susan Delgado", "proposalName": "Guardian Circle Leadership Gift", "amount": 50000, "stage": "Pending Decision", "expectedClose": "2026-07-25" },
+        { "name": "Walter & Joyce Reyes", "proposalName": "Capital Campaign Gift", "amount": 40000, "stage": "Drafting Proposal", "expectedClose": "2026-09-15" },
+        { "name": "Priya Nair", "proposalName": "Program Endowment Gift", "amount": 35000, "stage": "Pending Decision", "expectedClose": "2026-08-10" }
+      ],
+      "closedWonProposals": [
+        { "name": "Katherine Alvarez", "proposalName": "Legacy Society Leadership Gift", "amount": 100000, "dateClosed": "2026-05-12" },
+        { "name": "The Whitmore Family", "proposalName": "Northgate Academy Classroom Renovation", "amount": 75000, "dateClosed": "2026-04-02" },
+        { "name": "Charles Doyle", "proposalName": "Annual Fund Major Gift", "amount": 50000, "dateClosed": "2026-06-18" },
+        { "name": "Patricia & Neil Sargent", "proposalName": "Guardian Circle Leadership Gift", "amount": 35000, "dateClosed": "2026-03-25" },
+        { "name": "Ruth Ellison", "proposalName": "Program Endowment Gift", "amount": 25000, "dateClosed": "2026-02-14" }
+      ],
+      "staleContacts": [
+        { "name": "Eleanor Fitzgerald", "daysSinceContact": 34, "capacityRating": "$$$$" },
+        { "name": "Marcus Webb", "daysSinceContact": 28, "capacityRating": "$$$" },
+        { "name": "The Alcott Foundation", "daysSinceContact": 22, "capacityRating": "$$$$" },
+        { "name": "Diane Kowalski", "daysSinceContact": 19, "capacityRating": "$$" },
+        { "name": "James & Rita Sullivan", "daysSinceContact": 17, "capacityRating": "$$$" },
+        { "name": "Gerald Okafor", "daysSinceContact": 15, "capacityRating": "$$" },
+        { "name": "Vivian Cross", "daysSinceContact": 14, "capacityRating": "$$$$" },
+        { "name": "Thomas Beaumont", "daysSinceContact": 12, "capacityRating": "$$" },
+        { "name": "Nadia Petrov", "daysSinceContact": 11, "capacityRating": "$$$" }
+      ],
+      "upcomingBirthdays": [
+        { "name": "Margaret Ostrander", "date": "2026-07-15" },
+        { "name": "Harold Finch", "date": "2026-07-19" },
+        { "name": "Priya Nair", "date": "2026-07-22" },
+        { "name": "Eleanor Fitzgerald", "date": "2026-07-24" }
+      ],
+      "giftsThisWeek": [
+        { "name": "Susan Delgado", "amount": 25000, "date": "2026-07-08" },
+        { "name": "Walter & Joyce Reyes", "amount": 12500, "date": "2026-07-09" },
+        { "name": "Gerald Okafor", "amount": 5000, "date": "2026-07-11" }
+      ],
+      "donorsFYTD": 38,
+      "nonDonorsFYTD": 52,
+      "portfolioYieldFYTD": 612000,
+      "portfolioYieldGoal": 750000
+    },
+    {
+      "id": "dcrandall",
+      "name": "Grant Whitfield",
+      "title": "Major Gifts Officer",
+      "portfolioSize": 65,
+      "actionsThisWeek": { "qualification": 3, "cultivation": 3, "solicitation": 1, "stewardship": 2 },
+      "openProposals": [
+        { "name": "Carol Jennings", "proposalName": "Northgate Academy Program Fund", "amount": 120000, "stage": "Drafting Proposal", "expectedClose": "2026-09-10" },
+        { "name": "The Whitfield Family", "proposalName": "Capital Campaign Gift", "amount": 100000, "stage": "Pending Decision", "expectedClose": "2026-08-05" },
+        { "name": "Alan Brubaker", "proposalName": "Annual Fund Major Gift", "amount": 60000, "stage": "Negotiation", "expectedClose": "2026-08-20" },
+        { "name": "Renee Castillo", "proposalName": "Guardian Circle Leadership Gift", "amount": 30000, "stage": "Drafting Proposal", "expectedClose": "2026-09-25" }
+      ],
+      "closedWonProposals": [
+        { "name": "The Ferris Family Trust", "proposalName": "Capital Campaign Gift", "amount": 60000, "dateClosed": "2026-04-22" },
+        { "name": "Howard Blackwell", "proposalName": "Annual Fund Leadership Gift", "amount": 20000, "dateClosed": "2026-01-30" }
+      ],
+      "staleContacts": [
+        { "name": "Carol Jennings", "daysSinceContact": 41, "capacityRating": "$$$" },
+        { "name": "Frank Delgado", "daysSinceContact": 33, "capacityRating": "$$" },
+        { "name": "The Whitfield Family", "daysSinceContact": 29, "capacityRating": "$$$$" },
+        { "name": "Barbara Nash", "daysSinceContact": 27, "capacityRating": "$$" },
+        { "name": "Alan Brubaker", "daysSinceContact": 24, "capacityRating": "$$$" },
+        { "name": "Renee Castillo", "daysSinceContact": 21, "capacityRating": "$$" },
+        { "name": "Yusuf Karimi", "daysSinceContact": 19, "capacityRating": "$$" },
+        { "name": "Patricia Lowe", "daysSinceContact": 16, "capacityRating": "$$$" },
+        { "name": "Dorothy Vance", "daysSinceContact": 15, "capacityRating": "$$" },
+        { "name": "Michael Servin", "daysSinceContact": 14, "capacityRating": "$$" },
+        { "name": "Ingrid Solberg", "daysSinceContact": 13, "capacityRating": "$$$" },
+        { "name": "Roger Antoine", "daysSinceContact": 12, "capacityRating": "$$" },
+        { "name": "Connie Marsh", "daysSinceContact": 11, "capacityRating": "$$" },
+        { "name": "Ellis Duvall", "daysSinceContact": 11, "capacityRating": "$$" }
+      ],
+      "upcomingBirthdays": [
+        { "name": "Frank Delgado", "date": "2026-07-17" },
+        { "name": "Barbara Nash", "date": "2026-07-26" }
+      ],
+      "giftsThisWeek": [
+        { "name": "Yusuf Karimi", "amount": 5000, "date": "2026-07-10" }
+      ],
+      "donorsFYTD": 19,
+      "nonDonorsFYTD": 46,
+      "portfolioYieldFYTD": 198000,
+      "portfolioYieldGoal": 275000
+    },
+    {
+      "id": "hhall",
+      "name": "Renee Castellano",
+      "title": "Associate Major Gifts Officer",
+      "portfolioSize": 40,
+      "actionsThisWeek": { "qualification": 4, "cultivation": 1, "solicitation": 1, "stewardship": 0 },
+      "openProposals": [
+        { "name": "Community Foundation of Sonoma", "proposalName": "Northgate Academy Program Fund", "amount": 25000, "stage": "Drafting Proposal", "expectedClose": "2026-10-01" }
+      ],
+      "closedWonProposals": [
+        { "name": "Denise Okafor", "proposalName": "First-Time Donor Upgrade Gift", "amount": 7500, "dateClosed": "2026-05-30" }
+      ],
+      "staleContacts": [
+        { "name": "Nora Kim", "daysSinceContact": 52, "capacityRating": "$$" },
+        { "name": "Victor Alameda", "daysSinceContact": 47, "capacityRating": "$" },
+        { "name": "Community Foundation of Sonoma", "daysSinceContact": 38, "capacityRating": "$$$" },
+        { "name": "Sheila Brandt", "daysSinceContact": 35, "capacityRating": "$$" },
+        { "name": "Terrence Voss", "daysSinceContact": 31, "capacityRating": "$" },
+        { "name": "Angela Prescott", "daysSinceContact": 29, "capacityRating": "$$" },
+        { "name": "Dale Whitcombe", "daysSinceContact": 26, "capacityRating": "$" },
+        { "name": "Rosa Iniguez", "daysSinceContact": 24, "capacityRating": "$$" },
+        { "name": "Curtis Boone", "daysSinceContact": 23, "capacityRating": "$" },
+        { "name": "Lena Fairweather", "daysSinceContact": 21, "capacityRating": "$$" },
+        { "name": "Omar Salish", "daysSinceContact": 20, "capacityRating": "$" },
+        { "name": "Beverly Chin", "daysSinceContact": 18, "capacityRating": "$$" },
+        { "name": "Gustavo Renn", "daysSinceContact": 17, "capacityRating": "$" },
+        { "name": "Wanda Ostrom", "daysSinceContact": 16, "capacityRating": "$" },
+        { "name": "Phillip Deere", "daysSinceContact": 15, "capacityRating": "$$" },
+        { "name": "Ariana Solis", "daysSinceContact": 14, "capacityRating": "$" },
+        { "name": "Neil Faraday", "daysSinceContact": 13, "capacityRating": "$" },
+        { "name": "Colleen Traxler", "daysSinceContact": 13, "capacityRating": "$" },
+        { "name": "Bruce Amaro", "daysSinceContact": 12, "capacityRating": "$" },
+        { "name": "Fiona Beckett", "daysSinceContact": 11, "capacityRating": "$" },
+        { "name": "Desmond Okoye", "daysSinceContact": 11, "capacityRating": "$" },
+        { "name": "Hazel Trumbull", "daysSinceContact": 10, "capacityRating": "$" }
+      ],
+      "upcomingBirthdays": [
+        { "name": "Nora Kim", "date": "2026-07-20" }
+      ],
+      "giftsThisWeek": [],
+      "donorsFYTD": 6,
+      "nonDonorsFYTD": 34,
+      "portfolioYieldFYTD": 38000,
+      "portfolioYieldGoal": 120000
+    }
+  ]
+}
+
+</script>
+<script>
+const DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+
+let state = { officerId: DATA.officers[0].id, detailTab: 'proposals' };
+
+const money = v => '$' + Math.round(v).toLocaleString('en-US');
+const formatCurrency = (n) => {
+  if (Math.abs(n) >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1000) return '$' + (n / 1000).toFixed(0) + 'K';
+  return '$' + Math.round(n);
+};
+
+function getOfficer(){
+  return DATA.officers.find(o => o.id === state.officerId);
+}
+
+function fmtDate(iso){
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function daysUntil(iso){
+  const asOf = new Date(DATA.asOf + 'T00:00:00');
+  const d = new Date(iso + 'T00:00:00');
+  return Math.round((d - asOf) / (1000*60*60*24));
+}
+
+function renderOfficerTabs(){
+  const el = document.getElementById('officerTabs');
+  el.innerHTML = DATA.officers.map(o =>
+    `<button data-id="${o.id}" class="${o.id===state.officerId?'active':''}">${o.name}</button>`
+  ).join('');
+  el.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.officerId = btn.dataset.id;
+      state.detailTab = 'proposals';
+      renderAll();
+    });
+  });
+}
+
+function renderOfficerCard(o){
+  document.getElementById('ocName').textContent = o.name;
+  document.getElementById('ocTitle').textContent = o.title;
+  document.getElementById('ocPortfolioSize').textContent = o.portfolioSize;
+}
+
+function renderWeekKPIs(o){
+  const totalActions = Object.values(o.actionsThisWeek).reduce((a,b)=>a+b,0);
+  document.getElementById('weekTag').textContent = 'Week of ' + fmtDate(DATA.asOf);
+  document.getElementById('kpiTotalActions').textContent = totalActions;
+
+  document.getElementById('kpiOpenProposals').textContent = o.openProposals.length;
+  const proposalTotal = o.openProposals.reduce((s,p)=>s+p.amount,0);
+  document.getElementById('kpiOpenProposalsSub').textContent = formatCurrency(proposalTotal) + ' in asks';
+
+  document.getElementById('kpiGiftsWeek').textContent = o.giftsThisWeek.length;
+  const giftTotal = o.giftsThisWeek.reduce((s,g)=>s+g.amount,0);
+  document.getElementById('kpiGiftsWeekSub').textContent = o.giftsThisWeek.length ? formatCurrency(giftTotal) + ' received' : 'No gifts logged';
+
+  document.getElementById('kpiStale').textContent = o.staleContacts.length;
+  document.getElementById('kpiBirthdays').textContent = o.upcomingBirthdays.length;
+
+  const grid = document.getElementById('actionGrid');
+  const types = [
+    { key: 'qualification', label: 'Qualification', cls: 'qualification' },
+    { key: 'cultivation', label: 'Cultivation', cls: 'cultivation' },
+    { key: 'solicitation', label: 'Solicitation', cls: 'solicitation' },
+    { key: 'stewardship', label: 'Stewardship', cls: 'stewardship' },
+  ];
+  const maxVal = Math.max(...types.map(t => o.actionsThisWeek[t.key]), 1);
+  grid.innerHTML = types.map(t => {
+    const v = o.actionsThisWeek[t.key];
+    return `<div class="action-card ${t.cls}">
+      <div class="a-label">${t.label}</div>
+      <div class="a-value">${v}</div>
+      <div class="action-track"><div class="action-fill" style="width:${(v/maxVal*100)}%;"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderPortfolio(o){
+  const total = o.donorsFYTD + o.nonDonorsFYTD;
+  const donorPct = (o.donorsFYTD/total*100);
+  const bar = document.getElementById('compositionBar');
+  bar.innerHTML = `
+    <div class="composition-donors" style="width:${donorPct}%;">${donorPct>=14?o.donorsFYTD:''}</div>
+    <div class="composition-nondonors" style="width:${100-donorPct}%;">${(100-donorPct)>=14?o.nonDonorsFYTD:''}</div>
+  `;
+  document.getElementById('legendDonors').textContent = o.donorsFYTD + ' (' + donorPct.toFixed(0) + '%)';
+  document.getElementById('legendNonDonors').textContent = o.nonDonorsFYTD + ' (' + (100-donorPct).toFixed(0) + '%)';
+
+  const pct = (o.portfolioYieldFYTD/o.portfolioYieldGoal*100);
+  const pctEl = document.getElementById('yieldPct');
+  pctEl.textContent = pct.toFixed(1) + '%';
+  pctEl.className = 'ypct ' + (pct >= 90 ? 'hi' : pct >= 60 ? 'mid' : 'lo');
+
+  const fill = document.getElementById('yieldFill');
+  fill.style.width = Math.min(pct,100) + '%';
+  fill.style.background = pct >= 90
+    ? 'linear-gradient(to right, var(--pos), var(--pos-light))'
+    : pct >= 60
+      ? 'linear-gradient(to right, var(--teal), var(--teal-light))'
+      : 'linear-gradient(to right, var(--gold-dark), var(--gold))';
+  document.getElementById('yieldFillLabel').textContent = formatCurrency(o.portfolioYieldFYTD);
+
+  document.getElementById('yieldRaised').textContent = 'Raised: ' + money(o.portfolioYieldFYTD);
+  document.getElementById('yieldGoal').textContent = 'Goal: ' + money(o.portfolioYieldGoal);
+}
+
+const DETAIL_TABS = [
+  { key: 'proposals', label: 'Open Proposals' },
+  { key: 'stale', label: 'No Contact 10+ Days' },
+  { key: 'birthdays', label: 'Upcoming Birthdays' },
+  { key: 'gifts', label: 'Gifts This Week' },
+];
+
+function renderDetailTabs(){
+  const el = document.getElementById('detailTabs');
+  el.innerHTML = DETAIL_TABS.map(t =>
+    `<button data-key="${t.key}" class="${t.key===state.detailTab?'active':''}">${t.label}</button>`
+  ).join('');
+  el.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.detailTab = btn.dataset.key;
+      renderDetailTable();
+      renderDetailTabs();
+    });
+  });
+}
+
+function renderDetailTable(){
+  const o = getOfficer();
+  const headerRow = document.getElementById('detailHeaderRow');
+  const body = document.getElementById('detailBody');
+  const emptyEl = document.getElementById('detailEmpty');
+
+  let rows = [];
+  if(state.detailTab === 'proposals'){
+    headerRow.innerHTML = `<th>Constituent</th><th>Proposal Name</th><th>Stage</th><th class="num">Ask Amount</th><th class="num">Expected Close</th>`;
+    rows = o.openProposals.slice().sort((a,b)=>b.amount-a.amount).map(p =>
+      `<tr><td class="name-cell">${p.name}</td><td>${p.proposalName || '—'}</td><td>${p.stage}</td><td class="num">${money(p.amount)}</td><td class="num">${fmtDate(p.expectedClose)}</td></tr>`
+    );
+  } else if(state.detailTab === 'stale'){
+    headerRow.innerHTML = `<th>Constituent</th><th class="num">Days Since Contact</th><th class="num">Capacity Rating</th>`;
+    rows = o.staleContacts.slice().sort((a,b)=>b.daysSinceContact-a.daysSinceContact).map(c => {
+      const flagCls = c.daysSinceContact >= 21 ? 'high' : 'mid';
+      return `<tr><td class="name-cell">${c.name}</td><td class="num"><span class="stale-flag ${flagCls}">${c.daysSinceContact} days</span></td><td class="num">${c.capacityRating}</td></tr>`;
+    });
+  } else if(state.detailTab === 'birthdays'){
+    headerRow.innerHTML = `<th>Constituent</th><th class="num">Birthday</th><th class="num">Days Away</th>`;
+    rows = o.upcomingBirthdays.slice().sort((a,b)=>daysUntil(a.date)-daysUntil(b.date)).map(b =>
+      `<tr><td class="name-cell">${b.name}</td><td class="num">${fmtDate(b.date)}</td><td class="num">${daysUntil(b.date)}d</td></tr>`
+    );
+  } else if(state.detailTab === 'gifts'){
+    headerRow.innerHTML = `<th>Constituent</th><th class="num">Date</th><th class="num">Amount</th>`;
+    rows = o.giftsThisWeek.slice().sort((a,b)=>b.amount-a.amount).map(g =>
+      `<tr><td class="name-cell">${g.name}</td><td class="num">${fmtDate(g.date)}</td><td class="num">${money(g.amount)}</td></tr>`
+    );
+  }
+
+  if(rows.length === 0){
+    body.innerHTML = '';
+    emptyEl.style.display = 'block';
+  } else {
+    emptyEl.style.display = 'none';
+    body.innerHTML = rows.join('');
+  }
+}
+
+function renderClosedWon(o){
+  const list = (o.closedWonProposals || []).slice().sort((a,b)=>b.amount-a.amount);
+  const total = list.reduce((s,p)=>s+p.amount,0);
+  document.getElementById('kpiClosedWonCount').textContent = list.length;
+  document.getElementById('kpiClosedWonAmount').textContent = formatCurrency(total);
+
+  const body = document.getElementById('closedWonBody');
+  const emptyEl = document.getElementById('closedWonEmpty');
+  if(list.length === 0){
+    body.innerHTML = '';
+    emptyEl.style.display = 'block';
+  } else {
+    emptyEl.style.display = 'none';
+    body.innerHTML = list.map(p =>
+      `<tr><td class="name-cell">${p.name}</td><td>${p.proposalName || '—'}</td><td class="num">${fmtDate(p.dateClosed)}</td><td class="num">${money(p.amount)}</td></tr>`
+    ).join('');
+  }
+}
+
+function renderAll(){
+  const o = getOfficer();
+  renderOfficerTabs();
+  renderOfficerCard(o);
+  renderWeekKPIs(o);
+  renderPortfolio(o);
+  renderClosedWon(o);
+  renderDetailTabs();
+  renderDetailTable();
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
