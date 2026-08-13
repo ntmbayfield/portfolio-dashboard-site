@@ -86,6 +86,80 @@
     margin:0 0 10px;
   }
   .intro:last-of-type{margin-bottom:34px;}
+  .overview{
+    margin:6px 0 34px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+  }
+  .overview summary{
+    cursor:pointer;
+    list-style:none;
+    padding:15px 20px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .overview summary::-webkit-details-marker{display:none;}
+  .overview summary::before{
+    content:"+";
+    font-size:14px;
+    line-height:1;
+    color:var(--gold-dark);
+  }
+  .overview[open] summary::before{content:"\2212";}
+  .overview summary:hover{color:var(--ink);}
+  .overview-body{
+    padding:2px 24px 22px;
+    border-top:1px solid var(--line);
+    margin-top:-1px;
+  }
+  .overview-body h4{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:15px;
+    margin:22px 0 8px;
+    color:var(--ink);
+  }
+  .overview-body p{
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin:26px 0 30px;
+  }
+  @media (max-width:640px){.stat-row{grid-template-columns:1fr 1fr;}}
+  .stat{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    border-radius:10px;
+    padding:15px 16px;
+  }
+  .stat .sv{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:24px;
+    line-height:1.1;
+    color:var(--ink);
+    letter-spacing:-.01em;
+  }
+  .stat .sl{
+    margin-top:7px;
+    font-size:11.5px;
+    line-height:1.45;
+    color:var(--muted);
+  }
   .card-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -175,11 +249,36 @@
 
 <main>
   <div class="notice">
-    <strong>All data on this site is fictional.</strong> These dashboards were rebuilt for portfolio purposes with randomly generated donors, gifts, campaigns, and revenue figures for a fictional organization, "Northgate Youth Foundation." No real constituent records, donor names, or organizational financials appear anywhere on this site. The dashboard design, calculation logic, and data model are my own work.
+    <strong>This site duplicates a recent project I completed</strong> to produce a set of executive-level reporting dashboards for a nonprofit CEO and Board of Directors, built on top of an extensive cleanup of the last three fiscal years of fundraising data. <strong>All donor and gift data displayed is dummy data</strong> — every name, ID, amount, date, campaign, appeal, fund, and revenue figure was randomly generated for a fictional organization, "Northgate Youth Foundation." No real constituent records or organizational financials appear anywhere on this site.
   </div>
 
-  <p class="intro">Each dashboard is a single self-contained HTML file — no build step, no server, no database. Data is pre-aggregated at build time and embedded as JSON, then rendered client-side with Chart.js. That keeps them fast to load, trivial to host, and easy to hand to a colleague as a file.</p>
-  <p class="intro">The underlying source data in production is gift-level export from Raiser's Edge NXT, transformed into the metrics below. The <a href="dashboards/dashboard-reference.html" style="color:var(--teal);">Dashboard Reference</a> documents every metric definition, filtering rule, and data relationship behind these pages.</p>
+  <p class="intro">The dashboard visualizations here are the same ones used in the production dashboards — same charts, same tables, same metrics, same interactions. Only the data behind them was swapped. The process used to preserve legacy data and store the cleaned gift data is real, as is the automation: the scheduled pull from Raiser's Edge, the triggered build of each new weekly gift report, and the automatic update to this index page adding a card for it all reflect what was actually implemented.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="sv">~60,000</div><div class="sl">Gift records reviewed across five fiscal years</div></div>
+    <div class="stat"><div class="sv">$2M+</div><div class="sl">Revenue reattributed — roughly 17% of $11.5M in three-year revenue</div></div>
+    <div class="stat"><div class="sv">6,000+</div><div class="sl">Records reclassified, original values preserved</div></div>
+    <div class="stat"><div class="sv">3,000</div><div class="sl">Records with missing data identified and backfilled</div></div>
+  </div>
+
+  <p class="intro">Nearly a fifth of three-year revenue sat in the wrong campaign — the difference between a strategy conversation and a guess, and the reason year-over-year reporting had stopped being useful. With three years on a consistent basis and the reclassification effect shown explicitly rather than absorbed silently, the CEO and Board could separate real movement from recoding artifacts and use it for decisions about budget allocation, return on annual giving, and how many people each fundraising function needs.</p>
+
+  <details class="overview">
+    <summary>Read the full project overview</summary>
+    <div class="overview-body">
+      <h4>The problem</h4>
+      <p>Fundraising revenue was reported out of Raiser's Edge NXT, but the campaign, appeal, and fund values behind those numbers had accumulated years of inconsistent attribution. Gifts of the same type were coded to different campaigns across fiscal years, some records were missing campaign, appeal, or fund entirely, and some coding actively misrepresented the gift — an event ticket purchase credited against a monthly recurring giving commitment, for example. Any year-over-year comparison was measuring coding drift as much as fundraising performance, which made it impossible to answer leadership's actual questions about budget, program return, and staffing.</p>
+
+      <h4>Establishing the rules first</h4>
+      <p>The work ran in two parts. First, a governed campaign structure adopted at the start of FY27 — the campaign list, a written definition of each campaign, the rules governing which campaign a gift belongs to, and a hierarchy for gifts that could fall into more than one. That structure was signed off by the CEO, the Director of Development, the Gift Processor, and the Accounting and Finance team, the four parties whose work depends on those definitions holding. The most consequential rule was redefining Major Gifts: a gift belongs there not because of its dollar amount, but because it is the product of a development officer's work — a submitted proposal, a verbal ask, a gift following a campus tour — with CRM evidence of prior engagement to support it. That reframes Major Gifts from a size bucket into a measure of relationship-driven fundraising, which is what makes portfolio return measurable at all.</p>
+
+      <h4>Normalizing without overwriting</h4>
+      <p>Second, three fiscal years of historical gift data normalized against that structure. I exported five fiscal years from Raiser's Edge — roughly 60,000 rows — as an untouched control dataset to run reconciliation checks against, then segmented each fiscal year into its own file, flagged every record missing campaign, appeal, or fund data, and worked through the patterns revealing how gifts had actually been attributed each year, as distinct from what policy said. Rather than overwrite anything, I created three parallel attributes — Normalized Campaign, Normalized Appeal, and Normalized Fund — each holding either the original value where attribution was already correct or the corrected value under the FY27 rules, with a comment field recording the basis for the call. Records the evidence couldn't resolve were marked as judgment-based rather than silently absorbed, and leadership accepted a stated ±2% margin on fiscal-year figures in exchange for a complete dataset to plan from.</p>
+
+      <h4>Automating the reporting cycle</h4>
+      <p>Reporting was also moved off request and onto a schedule. A weekly Power Automate flow writes a gift detail file to SharePoint; that file landing triggers a second automation that builds the week's dashboard, recalculates fiscal-year-to-date totals across every prior week, and adds a card for the new report to this page — no one touches the HTML. A documented manual export procedure covers failed runs and off-cycle requests, producing an identical file in the same folder so it feeds the same build rather than a parallel one. Each dashboard is a single self-contained HTML file with data embedded as JSON and Chart.js bundled inline: no server, no database, trivial to host. The <a href="dashboards/dashboard-reference.html" style="color:var(--teal);">Dashboard Reference</a> documents every metric definition, filtering rule, data relationship, and the export SOP.</p>
+    </div>
+  </details>
 
   <div class="section-title"><h3>Annual &amp; Campaign Reporting</h3><div class="rule"></div></div>
   <div class="card-grid">
