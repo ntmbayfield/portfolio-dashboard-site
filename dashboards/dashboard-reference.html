@@ -407,9 +407,10 @@ Officer/portfolio entities (Actions, Proposals, Gifts) ──&gt; Development Of
     <div class="block-head"><h2>Standard Operating Procedures</h2></div>
     <p>Step-by-step procedures for generating the source datasets used to build or refresh each dashboard. Each subsection below is a complete, standalone SOP for one dataset.</p>
 
-    <h3>Weekly Giving Report (RENXT)</h3>
-    <p><b>Purpose:</b> Generate and export the Weekly Giving Report from Raiser's Edge NXT (RENXT) for use in the Weekly Giving Dashboard.</p>
-    <p><b>Frequency:</b> Weekly, every Monday &nbsp;·&nbsp; <b>Responsible party:</b> Database Manager &nbsp;·&nbsp; <b>System:</b> Raiser's Edge NXT</p>
+    <h3>Weekly Giving Report — Manual Export (Fallback Procedure)</h3>
+    <p><b>Normal operation:</b> weekly gift reporting runs automatically. A scheduled Power Automate flow queries the reporting period once a week and writes the gift detail file to the SharePoint folder below. The file landing in that folder triggers a second automation, which builds the week's dashboard and adds its card to the FY27 Fundraising section of the site index. No manual step is involved.</p>
+    <p><b>Purpose of this procedure:</b> produce the same gift detail file by hand when the automated run is needed off-cycle or does not complete. Because the downstream automation keys off a file appearing in the SharePoint folder rather than off the scheduled query, a file produced by these steps triggers the identical dashboard build — this is a fallback into the same pipeline, not a parallel process.</p>
+    <p><b>Use when:</b> the scheduled run fails or is skipped, or a report is needed for a non-standard date range &nbsp;·&nbsp; <b>Responsible party:</b> Database Manager &nbsp;·&nbsp; <b>System:</b> Raiser's Edge NXT</p>
 
     <table class="ledger">
       <tr><th>Step</th><th>Instruction</th></tr>
@@ -425,7 +426,7 @@ Officer/portfolio entities (Actions, Proposals, Gifts) ──&gt; Development Of
       <tr><td>10. Save to the correct location</td><td>Save the renamed file to: <b>Shared Drive &gt; Dashboard Exports &gt; Weekly Gift Reports</b>.</td></tr>
     </table>
 
-    <div class="caveat">Only the Gift Detail file from the four generated components is required for the dashboard build. The other three (campaign, appeal, and fund summaries) can be discarded if downloaded. No changes should be made to any report settings beyond the date range in Step 5.</div>
+    <div class="caveat"><b>The file name in Step 9 is load-bearing.</b> The downstream automation parses the reporting period out of the file name to label the dashboard and place it in the fiscal year; a file that does not match the convention will not build correctly. Only the Gift Detail file from the four generated components is required for the dashboard build. The other three (campaign, appeal, and fund summaries) can be discarded if downloaded. No changes should be made to any report settings beyond the date range in Step 5.</div>
   </section>
 
   <footer>Portfolio sample · All data shown is synthetic</footer>
