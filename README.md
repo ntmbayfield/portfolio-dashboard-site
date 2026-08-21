@@ -1,9 +1,7 @@
 # Fundraising Dashboard Portfolio — Static Site
 
-A de-identified portfolio build of a nonprofit fundraising dashboard suite: ten
-self-contained HTML dashboards plus a landing page. No build step, no server, no
-database — drop the folder on GitHub Pages, Netlify, or any static host and it
-works.
+A build of a nonprofit fundraising dashboard suite: ten
+self-contained HTML dashboards plus a landing page.
 
 Deployed at:  https://ntmbayfield.github.io/portfolio-dashboard-site/
 
@@ -12,8 +10,7 @@ Deployed at:  https://ntmbayfield.github.io/portfolio-dashboard-site/
 ## Project Overview
 
 **This site duplicates a recent project I completed** to produce a set of
-executive-level reporting dashboards for a nonprofit CEO and Board of Directors,
-built on top of an extensive cleanup of the last three fiscal years of
+executive-level reporting dashboards built on top of an extensive cleanup of the last three fiscal years of
 fundraising data.
 
 What's reproduced here, and what isn't:
@@ -276,7 +273,7 @@ production ones do:
 
 - Each weekly dashboard's FYTD section is a true cumulative rollup of that week
   plus every prior week in the fiscal year.
-- The July year-over-year dashboard's 2026 column is computed from the five
+- The July Monthly Giving dashboard's 2026 column is computed from the five
   weekly gift files covering the month.
 - FY26 "Raised" figures on the Progress to Goal dashboard match FY26
   revised-classification revenue on the Year-over-Year dashboard.
@@ -284,20 +281,6 @@ production ones do:
   donors, and LYBUNT ∪ Lost equals SYBUNT, with rosters sliced from the same
   donor universe.
 
----
-
-## Deploying
-
-It's a static site, so any of these work:
-
-- **GitHub Pages** — push the contents of `site/` to a repo, then enable Pages
-  on the branch root. Links are all relative, so it works from a project subpath
-  (`username.github.io/repo-name/`) without changes.
-- **Netlify / Cloudflare Pages** — drag the folder into the dashboard.
-- **Local** — open `index.html` directly in a browser.
-
-The only external requests are Google Fonts (Fraunces, Inter, IBM Plex Mono).
-Chart.js is bundled inline in each dashboard, so the charts render offline.
 
 ---
 
