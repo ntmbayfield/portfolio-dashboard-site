@@ -9,7 +9,7 @@ Deployed at:  https://ntmbayfield.github.io/portfolio-dashboard-site/
 
 ## Project Overview
 
-**This site duplicates a recent project I completed** to produce a set of
+This site duplicates a recent project I completed to produce a set of
 executive-level reporting dashboards built on top of an extensive cleanup of the last three fiscal years of
 fundraising data.
 
